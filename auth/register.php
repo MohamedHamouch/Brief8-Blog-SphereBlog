@@ -31,7 +31,7 @@
       <p class="text-gray-600 mt-2">Already have an account? <a href="login.php"
           class="text-blue-600 hover:underline">Login here</a></p>
     </div>
-    <form action="register_process.php" method="POST" class="mx-auto w-2/3">
+    <form action="handel_forms/register_process.php" method="POST" class="mx-auto w-2/3">
       <div class="mb-5">
         <label for="email" class="block mb-2 font-bold text-gray-900">Your email</label>
         <input type="email" name="email" id="email"
