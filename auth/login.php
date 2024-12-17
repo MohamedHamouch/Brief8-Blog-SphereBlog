@@ -62,11 +62,10 @@
           <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Home</a></li>
           <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Articles</a></li>
           <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Contact</a></li>
-          <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Log In</a></li>
         </ul>
       </nav>
     </div>
-    <div class="text-center mt-4">
+    <div class="text-center text-xs mt-8">
       <p class="text-gray-800">© 2024 Your Platform. All rights reserved.</p>
     </div>
   </footer>
