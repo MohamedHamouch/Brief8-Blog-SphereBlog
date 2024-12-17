@@ -20,13 +20,18 @@
           <li><a href="../index.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Home</a></li>
           <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">About</a></li>
           <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Contact</a></li>
-          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Log In</a></li>  
+          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Log In</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
   <section class="h-[75vh] flex flex-col justify-center mx-auto w-[50%]">
+    <div class="text-center mb-4">
+      <h2 class="text-xl font-semibold text-gray-900">Login to Your Account</h2>
+      <p class="text-gray-600 mt-2">Don't have an account? <a href="register.php"
+          class="text-blue-600 hover:underline">Register here</a></p>
+    </div>
     <form class="mx-auto w-2/3">
       <div class="mb-5">
         <label for="email" class="block mb-2 font-bold text-gray-900">Your email</label>
@@ -41,9 +46,10 @@
           required />
       </div>
       <button type="submit"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Login</button>
     </form>
   </section>
+
 
   <footer class="bg-[#ffe5cf] py-4 px-2 h-[15vh]">
     <div class="container mx-auto flex justify-between items-center">
