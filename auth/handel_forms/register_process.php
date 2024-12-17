@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error executing querry" . mysqli_stmt_error($stmt);
       }
       mysqli_stmt_close($stmt);
+      header("location: ../../index.php");
     } else {
       // echo "Passwords don't match";
     }

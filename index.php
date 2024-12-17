@@ -11,10 +11,10 @@
 <body class="bg-gray-100">
 
   <header class="bg-[#ffe5cf] py-4 h-[10vh]">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="logo">
-        <img src="your-logo.png" alt="Logo" class="w-10">
-      </div>
+    <div class="mx-auto flex justify-between items-center">
+      <button class="logo">
+        <img src="assets/sphereblog.png" alt="Logo" class="w-28">
+      </button>
       <nav class="nav">
         <ul class="flex">
           <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Home</a></li>
@@ -65,7 +65,7 @@
   <footer class="bg-[#ffe5cf] py-4 px-2 h-[15vh]">
     <div class="container mx-auto flex justify-between items-center">
       <div class="logo">
-        <img src="your-logo.png" alt="Logo" class="w-10">
+        <img src="assets/sphereblog.png" alt="Logo" class="w-24">
       </div>
 
       <nav>
