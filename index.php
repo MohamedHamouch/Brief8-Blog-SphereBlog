@@ -11,7 +11,7 @@
 <body class="bg-gray-100">
 
   <!-- Header Section -->
-  <header class="bg-[#ffe5cf] py-4">
+  <header class="bg-[#ffe5cf] py-4 h-[10vh]">
     <div class="container mx-auto flex justify-between items-center">
       <div class="logo">
         <img src="your-logo.png" alt="Logo" class="w-10">
@@ -21,7 +21,7 @@
           <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Home</a></li>
           <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">About</a></li>
           <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Contact</a></li>
-          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Log In</a></li>
+          <li><a href="auth/login.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Log In</a></li>
         </ul>
       </nav>
     </div>
@@ -64,7 +64,7 @@
     </div>
   </section>
 
-  <footer class="bg-[#ffe5cf] py-4 px-2">
+  <footer class="bg-[#ffe5cf] py-4 px-2 h-[15vh]">
     <div class="container mx-auto flex justify-between items-center">
       <div class="logo">
         <img src="your-logo.png" alt="Logo" class="w-10">
