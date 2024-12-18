@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     && isset($_POST['password']) && isset($_POST['confirm_password'])
   ) {
     $email = $_POST['email'];
-    $fname = $_POST['first_name'];
-    $lname = $_POST['last_name'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
@@ -27,7 +27,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
       if (mysqli_stmt_execute($stmt)) {
-        $_SESSION['user_id'] = $user_id;
+        $query = "SELECT * FROM Users WHERE email = ?";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        
+        $result = mysqli_stmt_get_result($stmt);
+        $user = mysqli_fetch_assoc($result);
+
+        $_SESSION['user_id'] = $user['id'];
         $_SESSION['first_name'] = $first_name;
         $_SESSION['last_name'] = $last_name;
         $_SESSION['role'] = $role_id;
@@ -39,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       mysqli_stmt_close($stmt);
       header("location: ../../index.php");
     } else {
-      // echo "Passwords don't match";
+      echo "Passwords don't match";
     }
   } else {
     echo "All fields are required";
