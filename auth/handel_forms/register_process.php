@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['first_name'] = $first_name;
         $_SESSION['last_name'] = $last_name;
-        $_SESSION['role'] = ($role_id == 1) ? 'admin' : 'user';
+        $_SESSION['role'] = $role_id;
         $_SESSION['email'] = $email;
         // echo "User registered successfully!";
       } else {
