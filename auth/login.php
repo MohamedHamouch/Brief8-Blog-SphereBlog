@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +30,16 @@ session_start();
     </div>
   </header>
 
-  <section class="h-[75vh] flex flex-col justify-center mx-auto w-[50%]">
+  <section class="h-[75vh] text-center flex flex-col justify-center mx-auto w-[50%]">
+    <?php
+    if (isset($_SESSION['user_id']) || isset($_SESSION['role'])) {
+      ?>
+      <h2 class="text-3xl font-semibold text-gray-900">You are already loged in
+        <?= "{$_SESSION['first_name']} {$_SESSION['last_name']}" ?>
+      </h2>
+      <?php
+    }else{
+    ?>
     <div class="text-center mb-4">
       <h2 class="text-xl font-semibold text-gray-900">Login to Your Account</h2>
       <p class="text-gray-600 mt-2">Don't have an account? <a href="register.php"
@@ -53,6 +61,9 @@ session_start();
       <button type="submit"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-8 py-2.5 text-center">Login</button>
     </form>
+    <?php
+    }
+    ?>
   </section>
 
 
