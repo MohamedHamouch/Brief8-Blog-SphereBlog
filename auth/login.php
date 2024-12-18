@@ -32,16 +32,16 @@
       <p class="text-gray-600 mt-2">Don't have an account? <a href="register.php"
           class="text-blue-600 hover:underline">Register here</a></p>
     </div>
-    <form class="mx-auto w-2/3">
+    <form action="handel_forms/login_process.php" method="POST" class="mx-auto w-2/3">
       <div class="mb-5">
         <label for="email" class="block mb-2 font-bold text-gray-900">Your email</label>
-        <input type="email" id="email"
+        <input type="email" name="email"
           class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           placeholder="Example@email.com" required />
       </div>
       <div class="mb-5">
         <label for="password" class="block mb-2 font-bold text-gray-900">Your password</label>
-        <input type="password" id="password"
+        <input type="password" name="password"
           class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           required />
       </div>
