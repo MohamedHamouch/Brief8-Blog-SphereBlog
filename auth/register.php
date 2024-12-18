@@ -17,22 +17,21 @@ session_start();
       <div class="logo">
         <img src="your-logo.png" alt="Logo" class="w-10">
       </div>
-      <nav class="nav">
+      <nav class="nav px-2">
         <ul class="flex">
           <li><a href="../index.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Home</a></li>
-          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">About</a></li>
-          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Contact</a></li>
+          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Articles</a></li>
           <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Authentification</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <section class="h-[75vh] text-center flex flex-col justify-center mx-auto w-[50%]">
+  <section class="h-[75vh] flex flex-col justify-center mx-auto w-[50%]">
   <?php
     if (isset($_SESSION['user_id']) || isset($_SESSION['role'])) {
       ?>
-      <h2 class="text-3xl font-semibold text-gray-900">You are already loged in
+      <h2 class="text-3xl text-center font-semibold text-gray-900">You are already loged in
         <?= "{$_SESSION['first_name']} {$_SESSION['last_name']}" ?>
       </h2>
       <a href="../../index.php">

@@ -19,11 +19,10 @@ session_start();
       <button class="logo">
         <img src="assets/sphereblog.png" alt="Logo" class="w-28">
       </button>
-      <nav class="nav">
+      <nav class="nav px-2">
         <ul class="flex">
           <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Home</a></li>
-          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">About</a></li>
-          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Contact</a></li>
+          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Articles</a></li>
           <li><a href="auth/login.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Authentification</a>
           </li>
         </ul>
@@ -31,7 +30,7 @@ session_start();
     </div>
   </header>
 
-  <section class="bg-[#ffe5cf] py-20 text-center">
+  <section class="bg-[#e8b28b] py-20 text-center">
     <div class="container mx-auto">
       <h2 class="text-3xl font-bold text-gray-800 mb-4">Welcome to Our Platform</h2>
       <p class="text-lg text-gray-600 mb-8">A place for sharing ideas and connecting with others.</p>
