@@ -4,7 +4,7 @@ require '../../config_db.php';
 
 if (isset($_SESSION['user_id']) || isset($_SESSION['role'])) {
   header("Location: ../../index.php");
-  exit;
+  exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
