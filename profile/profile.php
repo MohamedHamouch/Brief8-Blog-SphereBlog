@@ -77,18 +77,15 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
         <button data-section="postArticle"
           class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
-          <i class="fa-solid fa-file-circle-plus"></i> Post New Article
-        </button>
+          <i class="fa-solid fa-file-circle-plus"></i> Post New Article</button>
 
         <button data-section="historyArticles"
           class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
-          <i class="fa-solid fa-newspaper"></i> Articles History
-        </button>
+          <i class="fa-solid fa-newspaper"></i> Articles History</button>
 
         <button data-section="historyComments"
           class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
-          <i class="fa-solid fa-comment"></i> Comments History
-        </button>
+          <i class="fa-solid fa-comment"></i> Comments History</button>
       </div>
     </aside>
 
@@ -96,7 +93,28 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
     <!-- Main Content Area -->
     <div class="w-[85%] py-6 px-8">
       <section id="profile" class="content-section">
-        <h2 class="text-2xl font-semibold mb-4">Your Profile</h2>
+        <h2 class="text-2xl font-semibold mb-6">Your Profile</h2>
+        <div class="bg-gray-100 p-6 rounded shadow-md">
+          <!-- Profile Fields -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">First Name</label>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">John</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Last Name</label>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">Doe</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Email</label>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">john.doe@example.com</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Role</label>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">User</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section id="postArticle" class="content-section hidden">
