@@ -60,7 +60,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
                 <?php if ($role === "admin") { ?>
                   <li><a href="dashboard.php" class="block px-4 py-2 hover:bg-gray-600">Admin Dashboard</a></li>
                 <?php } ?>
-                <li><a href="../auth/handel_forms/logout.php"
+                <li><a href="../auth/handel_auth/logout.php"
                     class="block px-4 py-2 hover:bg-gray-600 rounded-b">Logout</a></li>
               </ul>
             </li>
@@ -102,15 +102,12 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       </div>
     </aside>
 
-
-
-
     <!-- Main Content Area -->
     <div class="w-[80%] py-6 px-8">
 
       <!-- profile -->
-      <section id="profile" class="content-section hidden">
-        <h2 class="text-2xl font-bold mb-6">Your Profile</h2>
+      <section id="profile" class="content-section">
+        <h2 class="text-2xl text-red-900 font-bold mb-6">Your Profile</h2>
         <div class="bg-gray-100 p-6 rounded shadow-md">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -198,7 +195,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
 
       <!-- manage comments -->
-      <section id="manageComments" class="content-section">
+      <section id="manageComments" class="content-section hidden">
         <h2 class="text-2xl text-red-900 font-bold mb-4">Manage Comments</h2>
         <div
           class="grid grid-cols-[30%,30%,20%,10%,10%] items-center bg-gray-200 p-2 font-semibold text-gray-700 mx-auto w-[90%]">
@@ -248,7 +245,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
     </div>
   </footer>
 
-  <script src="profile.js"></script>
+  <script src="dashboard.js"></script>
 </body>
 
 </html>
