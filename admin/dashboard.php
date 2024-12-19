@@ -200,7 +200,31 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       <!-- manage comments -->
       <section id="manageComments" class="content-section">
         <h2 class="text-2xl text-red-900 font-bold mb-4">Manage Comments</h2>
+        <div
+          class="grid grid-cols-[30%,30%,20%,10%,10%] items-center bg-gray-200 p-2 font-semibold text-gray-700 mx-auto w-[90%]">
+          <div>Associated Article</div>
+          <div>Publisher</div>
+          <div>Date</div>
+          <div class="justify-self-center">Edit</div>
+          <div class="justify-self-center">Delete</div>
+        </div>
 
+        <div
+          class="grid grid-cols-[30%,30%,20%,10%,10%] items-center border-b p-2 bg-white hover:bg-gray-100 mx-auto w-[90%] text-gray-900">
+          <p>Article Title 1</p>
+          <p>User 1</p>
+          <p>2024-12-19</p>
+          <button class="bg-transparent border-0 p-0">
+            <i class="fa-solid fa-pen-to-square text-yellow-500"></i>
+          </button>
+          <div class="justify-self-center">
+            <form action="handle_forms/delete_comment.php" method="POST" class="deleteForm">
+              <button type="submit" class="bg-transparent border-0 p-0">
+                <i class="fa-solid fa-trash text-red-500"></i>
+              </button>
+            </form>
+          </div>
+        </div>
       </section>
     </div>
   </main>
