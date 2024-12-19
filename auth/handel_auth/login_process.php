@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "s", $email);
     mysqli_stmt_execute($stmt);
-    
+
     $result = mysqli_stmt_get_result($stmt);
     $user = mysqli_fetch_assoc($result);
 
@@ -32,14 +32,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['email'] = $user['email'];
 
         header("Location: ../../index.php");
-        exit();
-
       } else {
-        echo "Invalid password.";
+        // echo "Invalid password.";
+        $_SESSION['login_error'] = "Invalid password.";
       }
 
     } else {
-      echo "No user found with that email.";
+      // echo "No user found with that email.";
+      $_SESSION['login_error'] = "No user found with that email.";
+
     }
   }
   mysqli_close($conn);

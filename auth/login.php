@@ -1,5 +1,12 @@
 <?php
 session_start();
+if (isset($_SESSION['user_id']) || isset($_SESSION['role'])) {
+  $connected = true;
+  $first_name = $_SESSION['first_name'];
+  $last_name = $_SESSION['last_name'];
+} else {
+  $connected = false;
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +29,8 @@ session_start();
       <nav class="nav px-2">
         <ul class="flex">
           <li><a href="../index.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Home</a></li>
-          <li><a href="../articles/articles.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Articles</a></li>
+          <li><a href="../articles/articles.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Articles</a>
+          </li>
           <li><a href="login.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Authentification</a></li>
         </ul>
       </nav>
@@ -31,15 +39,14 @@ session_start();
 
   <section class="h-[75vh] flex flex-col justify-center mx-auto w-[50%]">
     <?php
-    if (isset($_SESSION['user_id']) || isset($_SESSION['role'])) {
+    if ($connected) {
       ?>
       <h2 class="text-center text-3xl font-semibold text-gray-900">You are already loged in
-        <?= "{$_SESSION['first_name']} {$_SESSION['last_name']}" ?>
+        <?= "$first_name $last_name" ?>
       </h2>
-      <a href="../../index.php">
+      <a href="../../index.php" class="mx-auto">
         <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Go Home
-        </button>
+          Go Home</button>
       </a>
       <?php
     } else {
@@ -48,6 +55,12 @@ session_start();
         <h2 class="text-xl font-semibold text-gray-900">Login to Your Account</h2>
         <p class="text-gray-600 mt-2">Don't have an account? <a href="register.php"
             class="text-blue-600 hover:underline">Register here</a></p>
+      </div>
+      <div class="text-center mb-4 min-h-5">
+        <?php if (isset($_SESSION['login_error'])) { ?>
+          <p class="text-red-500 text-sm font-semibold"><?= $_SESSION['login_error'] ?></p>
+          <?php unset($_SESSION['login_error']);
+        } ?>
       </div>
       <form action="handel_auth/login_process.php" method="POST" class="mx-auto w-2/3">
         <div class="mb-5">

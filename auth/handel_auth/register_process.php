@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = mysqli_prepare($conn, $query);
         mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
-        
+
         $result = mysqli_stmt_get_result($stmt);
         $user = mysqli_fetch_assoc($result);
 
@@ -42,16 +42,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['email'] = $email;
         // echo "User registered successfully!";
       } else {
-        echo "Error executing querry" . mysqli_stmt_error($stmt);
+        // echo "Error executing querry" . mysqli_stmt_error(statement: $stmt);
+        $_SESSION['register_error'] = "email already used";
+
       }
       mysqli_stmt_close($stmt);
       header("location: ../../index.php");
     } else {
-      echo "Passwords don't match";
+      // echo "Passwords don't match";
+      $_SESSION['register_error'] = "Passwords don't match";
     }
   } else {
-    echo "All fields are required";
+    // echo "All fields are required";
+    $_SESSION['register_error'] = "All fields are required";
   }
-
+  header("location: ../register.php");
   mysqli_close($conn);
 }
