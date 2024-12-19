@@ -92,10 +92,11 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
     <!-- Main Content Area -->
     <div class="w-[85%] py-6 px-8">
+
+      <!-- profile -->
       <section id="profile" class="content-section">
         <h2 class="text-2xl font-semibold mb-6">Your Profile</h2>
         <div class="bg-gray-100 p-6 rounded shadow-md">
-          <!-- Profile Fields -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">First Name</label>
@@ -117,14 +118,51 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
         </div>
       </section>
 
+      <!-- add article -->
       <section id="postArticle" class="content-section hidden">
         <h2 class="text-2xl font-semibold mb-4">Post New Article</h2>
+        <form action="/submit-article" method="POST" enctype="multipart/form-data"
+          class="flex flex-col gap-5 bg-white p-6 rounded-lg shadow-md">
+          <div>
+            <label for="title" class="block text-lg font-medium">Title</label>
+            <input type="text" id="title" name="title" maxlength="100" required
+              class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+              placeholder="Enter article title (max 100 characters)">
+          </div>
+
+          <div>
+            <label for="description" class="block text-lg font-medium">Description</label>
+            <textarea id="description" name="description" maxlength="250" required rows="2"
+              class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+              placeholder="Enter article description (max 250 characters)"></textarea>
+          </div>
+
+          <div>
+            <label for="content" class="block text-lg font-medium">Content</label>
+            <textarea id="content" name="content" required rows="6"
+              class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+              placeholder="Write your article content here"></textarea>
+          </div>
+
+          <div>
+            <label for="image" class="block text-lg font-medium">Upload Image</label>
+            <input type="file" id="image" name="image" accept="image/*" required
+              class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+          </div>
+
+          <button type="submit"
+            class="w-36 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">
+            Submit Article</button>
+        </form>
+
       </section>
 
+      <!-- articles history -->
       <section id="historyArticles" class="content-section hidden">
         <h2 class="text-2xl font-semibold mb-4">Your Past Articles</h2>
       </section>
 
+      <!-- comments history -->
       <section id="historyComments" class="content-section hidden">
         <h2 class="text-2xl font-semibold mb-4">Your Past Comments</h2>
       </section>
