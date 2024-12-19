@@ -94,7 +94,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
     <div class="w-[85%] py-6 px-8">
 
       <!-- profile -->
-      <section id="profile" class="content-section">
+      <section id="profile" class="content-section hidden">
         <h2 class="text-2xl font-semibold mb-6">Your Profile</h2>
         <div class="bg-gray-100 p-6 rounded shadow-md">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -158,8 +158,33 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       </section>
 
       <!-- articles history -->
-      <section id="historyArticles" class="content-section hidden">
+      <section id="historyArticles" class="content-section">
         <h2 class="text-2xl font-semibold mb-4">Your Past Articles</h2>
+        <div
+          class="grid grid-cols-[30%,30%,20%,10%,10%] items-center bg-gray-200 p-2 font-semibold text-gray-700 mx-auto w-[90%]">
+          <div>Title</div>
+          <div>Publisher</div>
+          <div>Date</div>
+          <div class="justify-self-center">Edit</div>
+          <div class="justify-self-center">Delete</div>
+        </div>
+
+        <div
+          class="grid grid-cols-[30%,30%,20%,10%,10%] items-center border-b p-2 bg-white hover:bg-gray-100 mx-auto w-[90%] text-gray-900">
+          <p>Article Title 1</p>
+          <p>Publisher 1</p>
+          <p>2024-12-19</p>
+          <button class="bg-transparent border-0 p-0">
+            <i class="fa-solid fa-pen-to-square text-yellow-500"></i>
+          </button>
+          <div class="justify-self-center">
+            <form action="handle_forms/delete_article.php" method="POST" class="deleteForm">
+              <button type="submit" class="bg-transparent border-0 p-0">
+                <i class="fa-solid fa-trash text-red-500"></i>
+              </button>
+            </form>
+          </div>
+        </div>
       </section>
 
       <!-- comments history -->
