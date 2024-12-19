@@ -64,29 +64,29 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   <main class="min-h-[75vh] flex">
 
     <!-- Sidebar -->
-    <aside class="w-[15%] bg-gray-800 text-white py-6 px-4">
+    <aside id="side-menu" class="w-[15%] bg-gray-800 text-white py-6 px-4">
       <h3 class="text-lg font-semibold mb-4">Menu</h3>
       <div class="space-y-4">
 
-        <button
+        <button data-section="profile"
           class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
           <i class="fa-solid fa-user"></i> Profile
         </button>
 
 
-        <button
+        <button data-section="postArticle"
           class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
           <i class="fa-solid fa-file-circle-plus"></i> Post New Article
         </button>
 
-        <button
+        <button data-section="historyArticles"
           class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
-          <i class="fa-solid fa-newspaper"></i> Past Articles
+          <i class="fa-solid fa-newspaper"></i> Articles History
         </button>
 
-        <button
+        <button data-section="historyComments"
           class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
-          <i class="fa-solid fa-comment"></i> Past Comments
+          <i class="fa-solid fa-comment"></i> Comments History
         </button>
       </div>
     </aside>
@@ -94,7 +94,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
     <!-- Main Content Area -->
     <div class="w-[85%] py-6 px-8">
-      <section id="dashboard" class="content-section">
+      <section id="profile" class="content-section">
         <h2 class="text-2xl font-semibold mb-4">Your Profile</h2>
       </section>
 
@@ -102,11 +102,11 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
         <h2 class="text-2xl font-semibold mb-4">Post New Article</h2>
       </section>
 
-      <section id="pastArticles" class="content-section hidden">
+      <section id="historyArticles" class="content-section hidden">
         <h2 class="text-2xl font-semibold mb-4">Your Past Articles</h2>
       </section>
 
-      <section id="pastComments" class="content-section hidden">
+      <section id="historyComments" class="content-section hidden">
         <h2 class="text-2xl font-semibold mb-4">Your Past Comments</h2>
       </section>
     </div>
