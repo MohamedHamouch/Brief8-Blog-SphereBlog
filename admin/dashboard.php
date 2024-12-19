@@ -77,7 +77,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
     <!-- Sidebar -->
     <aside id="side-menu" class="w-[20%] bg-red-900 text-white py-6 px-4">
-      <h3 class="text-lg font-semibold mb-4">Admin Dashboard</h3>
+      <h3 class="text-lg font-bold mb-4">Admin Dashboard</h3>
       <div class="space-y-4">
 
         <button data-section="profile"
@@ -110,7 +110,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
       <!-- profile -->
       <section id="profile" class="content-section hidden">
-        <h2 class="text-2xl font-semibold mb-6">Your Profile</h2>
+        <h2 class="text-2xl font-bold mb-6">Your Profile</h2>
         <div class="bg-gray-100 p-6 rounded shadow-md">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -134,24 +134,74 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       </section>
 
       <!-- manage users -->
-      <section id="manageUSers" class="content-section hidden">
-        <h2 class="text-2xl font-semibold mb-4">Post New Article</h2>
+      <section id="manageUsers" class="content-section hidden">
+        <h2 class="text-2xl text-red-900 font-bold mb-4">Manage USers</h2>
+        <div
+          class="grid grid-cols-[5%,20%,20%,35%,10%,10%] items-center bg-gray-200 p-2 font-semibold text-gray-700 mx-auto w-[90%]">
+          <div>ID</div>
+          <div>First Name</div>
+          <div>Last Name</div>
+          <div>Email</div>
+          <div class="justify-self-center">Promote</div>
+          <div class="justify-self-center">Delete</div>
+        </div>
 
+        <div
+          class="grid grid-cols-[5%,20%,20%,35%,10%,10%] items-center border-b p-2 bg-white hover:bg-gray-100 mx-auto w-[90%] text-gray-900">
+          <p>1</p>
+          <p>John</p>
+          <p>Doe</p>
+          <p>johndoe@example.com</p>
+
+          <button class="bg-transparent border-0 p-0 justify-center mx-auto">
+            <i class="fa-solid fa-circle-arrow-up text-blue-500"></i> <!-- Blue Circular Promote Icon -->
+          </button>
+
+          <div class="justify-self-center">
+            <form action="" method="POST" class="deleteForm">
+              <button type="submit" class="bg-transparent border-0 p-0">
+                <i class="fa-solid fa-trash text-red-500"></i></button>
+            </form>
+          </div>
+        </div>
       </section>
 
       <!-- manage articles -->
       <section id="manageArticles" class="content-section hidden">
-        <h2 class="text-2xl font-semibold mb-4">Your Past Articles</h2>
-       
-         
+        <h2 class="text-2xl text-red-900 font-bold mb-4">Manage Articles</h2>
+        <div
+          class="grid grid-cols-[30%,30%,20%,10%,10%] items-center bg-gray-200 p-2 font-semibold text-gray-700 mx-auto w-[90%]">
+          <div>Title</div>
+          <div>Publisher</div>
+          <div>Date</div>
+          <div class="justify-self-center">Edit</div>
+          <div class="justify-self-center">Delete</div>
+        </div>
+
+        <div
+          class="grid grid-cols-[30%,30%,20%,10%,10%] items-center border-b p-2 bg-white hover:bg-gray-100 mx-auto w-[90%] text-gray-900">
+          <p>Article Title 1</p>
+          <p>Publisher 1</p>
+          <p>2024-12-19</p>
+          <button class="bg-transparent border-0 p-0">
+            <i class="fa-solid fa-pen-to-square text-yellow-500"></i>
+          </button>
+          <div class="justify-self-center">
+            <form action="handle_forms/delete_article.php" method="POST" class="deleteForm">
+              <button type="submit" class="bg-transparent border-0 p-0">
+                <i class="fa-solid fa-trash text-red-500"></i>
+              </button>
+            </form>
+          </div>
+        </div>
       </section>
+
 
       <!-- manage comments -->
-      <section id="manageComments" class="content-section hidden">
-        <h2 class="text-2xl font-semibold mb-4">Your Past Comments</h2>
-        
-      </section>
+      <section id="manageComments" class="content-section">
+        <h2 class="text-2xl text-red-900 font-bold mb-4">Manage Comments</h2>
 
+      </section>
     </div>
   </main>
 
