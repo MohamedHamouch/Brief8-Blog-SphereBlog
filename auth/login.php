@@ -17,13 +17,13 @@ session_start();
   <header class="bg-[#ffe5cf] py-4 h-[10vh]">
     <div class="container mx-auto flex justify-between items-center">
       <div class="logo">
-        <img src="your-logo.png" alt="Logo" class="w-10">
+        <img src="../assets/sphereblog.png" alt="Logo" class="w-28">
       </div>
       <nav class="nav px-2">
         <ul class="flex">
           <li><a href="../index.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Home</a></li>
-          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Articles</a></li>
-          <li><a href="#" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Authentification</a></li>
+          <li><a href="../articles/articles.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Articles</a></li>
+          <li><a href="login.php" class="text-gray-800 hover:bg-[#e8b28b] py-2 px-4 rounded">Authentification</a></li>
         </ul>
       </nav>
     </div>
@@ -49,7 +49,7 @@ session_start();
         <p class="text-gray-600 mt-2">Don't have an account? <a href="register.php"
             class="text-blue-600 hover:underline">Register here</a></p>
       </div>
-      <form action="handel_forms/login_process.php" method="POST" class="mx-auto w-2/3">
+      <form action="handel_auth/login_process.php" method="POST" class="mx-auto w-2/3">
         <div class="mb-5">
           <label for="email" class="block mb-2 font-bold text-gray-900">Your email</label>
           <input type="email" name="email"
@@ -74,13 +74,13 @@ session_start();
   <footer class="bg-[#ffe5cf] py-4 px-2 h-[15vh]">
     <div class="container mx-auto flex justify-between items-center">
       <div class="logo">
-        <img src="your-logo.png" alt="Logo" class="w-10">
+        <img src="../assets/sphereblog.png" alt="Logo" class="w-24">
       </div>
 
       <nav>
         <ul class="flex space-x-8">
-          <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Home</a></li>
-          <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Articles</a></li>
+          <li><a href="../index.php" class="text-gray-800 hover:text-[#e8b28b]">Home</a></li>
+          <li><a href="../articles/articles.php" class="text-gray-800 hover:text-[#e8b28b]">Articles</a></li>
           <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Contact</a></li>
         </ul>
       </nav>
