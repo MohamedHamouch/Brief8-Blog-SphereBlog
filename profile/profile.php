@@ -3,6 +3,7 @@ session_start();
 if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   $first_name = $_SESSION['first_name'];
   $last_name = $_SESSION['last_name'];
+  $role = ($_SESSION['role'] == 2) ? 'user' : 'admin';
   $connected = true;
 } else {
   header("Location: ../../index.php");
@@ -34,7 +35,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
         <ul class="flex gap-1">
           <li><a href="../index.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Home</a>
           </li>
-          <li><a href="../2" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Articles</a>
+          <li><a href="../articles/articles.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Articles</a>
           </li>
           <?php
           if (!$connected) {
@@ -49,7 +50,10 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
               <ul class="absolute hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity duration-300 
                    bg-gray-800 text-white mt-2 rounded shadow-lg w-full">
                 <li><a href="../profile/profile.php" class="block px-4 py-2 hover:bg-gray-600 rounded-t">Profile</a></li>
-                <li><a href="../auth/handel_forms/logout.php"
+                <?php if ($role === "admin") { ?>
+                  <li><a href="../admin/dashboard.php" class="block px-4 py-2 hover:bg-gray-600">Admin Dashboard</a></li>
+                <?php } ?>
+                <li><a href="../auth/handel_auth/logout.php"
                     class="block px-4 py-2 hover:bg-gray-600 rounded-b">Logout</a></li>
               </ul>
             </li>
@@ -65,37 +69,39 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   <main class="min-h-[75vh] flex">
 
     <!-- Sidebar -->
-    <aside id="side-menu" class="w-[15%] bg-gray-800 text-white py-6 px-4">
-      <h3 class="text-lg font-semibold mb-4">Menu</h3>
+    <aside id="side-menu" class="w-[20%] bg-blue-900 text-white py-6 px-4">
+      <h3 class="text-lg font-bold mb-4">Menu</h3>
       <div class="space-y-4">
 
         <button data-section="profile"
-          class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
+          class="w-full text-left text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
           <i class="fa-solid fa-user"></i> Profile
         </button>
 
-
         <button data-section="postArticle"
-          class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
-          <i class="fa-solid fa-file-circle-plus"></i> Post New Article</button>
+          class="w-full text-left text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
+          <i class="fa-solid fa-file-circle-plus"></i> Post New Article
+        </button>
 
         <button data-section="historyArticles"
-          class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
-          <i class="fa-solid fa-newspaper"></i> Articles History</button>
+          class="w-full text-left text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
+          <i class="fa-solid fa-newspaper"></i> Articles History
+        </button>
 
         <button data-section="historyComments"
-          class="w-full text-left text-white hover:bg-[#e8b28b]/20 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
-          <i class="fa-solid fa-comment"></i> Comments History</button>
+          class="w-full text-left text-white hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition-all py-2 px-4 rounded">
+          <i class="fa-solid fa-comment"></i> Comments History
+        </button>
       </div>
     </aside>
 
 
     <!-- Main Content Area -->
-    <div class="w-[85%] py-6 px-8">
+    <div class="w-[80%] py-6 px-8">
 
       <!-- profile -->
-      <section id="profile" class="content-section hidden">
-        <h2 class="text-2xl font-semibold mb-6">Your Profile</h2>
+      <section id="profile" class="content-section">
+        <h2 class="text-2xl text-blue-900 font-bold mb-6">Your Profile</h2>
         <div class="bg-gray-100 p-6 rounded shadow-md">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -120,7 +126,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
       <!-- add article -->
       <section id="postArticle" class="content-section hidden">
-        <h2 class="text-2xl font-semibold mb-4">Post New Article</h2>
+        <h2 class="text-2xl text-blue-900 font-bold mb-4">Post New Article</h2>
         <form action="/submit-article" method="POST" enctype="multipart/form-data"
           class="flex flex-col gap-5 bg-white p-6 rounded-lg shadow-md">
           <div>
@@ -159,7 +165,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
       <!-- articles history -->
       <section id="historyArticles" class="content-section hidden">
-        <h2 class="text-2xl font-semibold mb-4">Your Past Articles</h2>
+        <h2 class="text-2xl text-blue-900 font-bold mb-4">Your Past Articles</h2>
         <div
           class="grid grid-cols-[30%,30%,20%,10%,10%] items-center bg-gray-200 p-2 font-semibold text-gray-700 mx-auto w-[90%]">
           <div>Title</div>
@@ -188,12 +194,12 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       </section>
 
       <!-- comments history -->
-      <section id="historyComments" class="content-section">
-        <h2 class="text-2xl font-semibold mb-4">Your Past Comments</h2>
+      <section id="historyComments" class="content-section hidden">
+        <h2 class="text-2xl text-blue-900 font-bold mb-4">Your Past Comments</h2>
         <div
           class="grid grid-cols-[30%,30%,20%,10%,10%] items-center bg-gray-200 p-2 font-semibold text-gray-700 mx-auto w-[90%]">
-          <div>Article</div>
-          <div>User</div>
+          <div>Associated Article</div>
+          <div>Publihser</div>
           <div>Date</div>
           <div class="justify-self-center">Edit</div>
           <div class="justify-self-center">Delete</div>
