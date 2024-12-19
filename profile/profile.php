@@ -5,7 +5,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   $last_name = $_SESSION['last_name'];
   $connected = true;
 } else {
-  $connected = false;
+  header("Location: ../../index.php");
+  exit();
 }
 ?>
 
@@ -33,7 +34,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
         <ul class="flex gap-1">
           <li><a href="../index.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Home</a>
           </li>
-          <li><a href="#" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Articles</a>
+          <li><a href="../2" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Articles</a>
           </li>
           <?php
           if (!$connected) {
