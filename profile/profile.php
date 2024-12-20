@@ -33,34 +33,22 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       </button>
       <nav class="nav px-2">
         <ul class="flex gap-1">
-          <li><a href="../index.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Home</a>
-          </li>
-          <li><a href="../articles/articles.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Articles</a>
-          </li>
-          <?php
-          if (!$connected) {
-            echo '<li><a href="../auth/login.php" class="text-white bg-black hover:bg-black/70 py-2 px-4 rounded-full">
-            <i class="fa-solid fa-user-plus"></i> Authentification</a></li>';
-          } else {
-            ?>
-            <li class="relative group text-white">
-              <a href="../profile/profile.php" class="bg-black hover:bg-black/70 py-2 px-4 rounded-full">
-                <i class="fa-solid fa-user"></i><?= " $first_name $last_name" ?>
-              </a>
-              <ul class="absolute hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity duration-300 
+          <li><a href="../index.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Home</a></li>
+          <li><a href="../articles/articles.php"
+              class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Articles</a></li>
+          <li class="relative group text-white">
+            <a href="../profile/profile.php" class="bg-black hover:bg-black/70 py-2 px-4 rounded-full">
+              <i class="fa-solid fa-user"></i><?= " $first_name $last_name" ?></a>
+            <ul class="absolute hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity duration-300 
                    bg-gray-800 text-white mt-2 rounded shadow-lg w-full">
-                <li><a href="../profile/profile.php" class="block px-4 py-2 hover:bg-gray-600 rounded-t">Profile</a></li>
-                <?php if ($role === "admin") { ?>
-                  <li><a href="../admin/dashboard.php" class="block px-4 py-2 hover:bg-gray-600">Admin Dashboard</a></li>
-                <?php } ?>
-                <li><a href="../auth/handel_auth/logout.php"
-                    class="block px-4 py-2 hover:bg-gray-600 rounded-b">Logout</a></li>
-              </ul>
-            </li>
-            <?php
-          }
-          ?>
-
+              <li><a href="../profile/profile.php" class="block px-4 py-2 hover:bg-gray-600 rounded-t">Profile</a></li>
+              <?php if ($connected && $role === "admin") { ?>
+                <li><a href="../admin/dashboard.php" class="block px-4 py-2 hover:bg-gray-600">Admin Dashboard</a></li>
+              <?php } ?>
+              <li><a href="../auth/handel_auth/logout.php"
+                  class="block px-4 py-2 hover:bg-gray-600 rounded-b">Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </nav>
     </div>
