@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['email'] = $user['email'];
 
         header("Location: ../../index.php");
+        exit();
       } else {
         // echo "Invalid password.";
         $_SESSION['login_error'] = "Invalid password.";
@@ -43,6 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     }
   }
-  header("location: ../login.php");
+  header("Location: ../login.php");
   mysqli_close($conn);
 }

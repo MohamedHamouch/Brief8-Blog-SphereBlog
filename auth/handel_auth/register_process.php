@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
       mysqli_stmt_close($stmt);
       header("location: ../../index.php");
+      exit();
     } else {
       // echo "Passwords don't match";
       $_SESSION['register_error'] = "Passwords don't match";
