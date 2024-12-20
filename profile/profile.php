@@ -1,16 +1,14 @@
 <?php
 session_start();
-require '../config_db.php';
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   $first_name = $_SESSION['first_name'];
   $last_name = $_SESSION['last_name'];
+  $email = $_SESSION['email'];
   $role = ($_SESSION['role'] == 2) ? 'user' : 'admin';
   $connected = true;
 
-  $query = "SELECT * FROM tags";
-  $result = mysqli_query($conn, $query);
-  $tags = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  require 'select_data.php';
 
 } else {
   header("Location: ../../index.php");
@@ -63,7 +61,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
   <main class="min-h-[75vh] flex">
 
-    <!-- Sidebar -->
     <aside id="side-menu" class="w-[20%] bg-blue-900 text-white py-6 px-4">
       <h3 class="text-lg font-bold mb-4">Menu</h3>
       <div class="space-y-4">
@@ -100,19 +97,19 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">First Name</label>
-              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">John</p>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm"><?= $first_name?></p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Last Name</label>
-              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">Doe</p>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm"><?= $last_name?></p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Email</label>
-              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">john.doe@example.com</p>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm"><?= $email?></p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Role</label>
-              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">User</p>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm"><?= $role?></p>
             </div>
           </div>
         </div>
