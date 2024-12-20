@@ -80,9 +80,12 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   <section class="py-20 min-h-[40vh] bg-white">
     <div class="container mx-auto text-center flex flex-col gap-12">
       <h1 class="text-3xl font-bold text-gray-800">All Articles</h1>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center items-center">
 
         <div class="bg-gray-100 p-6 rounded shadow-md hover:shadow-lg transition duration-300 max-w-xs mx-auto">
+          <div class="mb-4">
+            <img src="../assets/sphereblog.png" alt="Article Image" class="w-full h-48 object-cover rounded-md">
+          </div>
           <p class="text-xl font-semibold text-gray-800 mb-4">Article Title 1</p>
           <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           <p class="text-xs text-[var(--black)] mb-2 font-semibold">12/12/2024</p>
@@ -90,20 +93,17 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
         </div>
 
         <div class="bg-gray-100 p-6 rounded shadow-md hover:shadow-lg transition duration-300 max-w-xs mx-auto">
-          <p class="text-xl font-semibold text-gray-800 mb-4">Article Title 2</p>
-          <p class="text-gray-600 mb-4">Vivamus lacinia, purus eu vehicula lacinia.</p>
+          <div class="mb-4">
+            <img src="../assets/sphereblog.png" alt="Article Image" class="w-full h-48 object-cover rounded-md">
+          </div>
+          <p class="text-xl font-semibold text-gray-800 mb-4">Article Title 1</p>
+          <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p class="text-xs text-[var(--black)] mb-2 font-semibold">12/12/2024</p>
           <a href="#" class="text-[var(--blue)] hover:text-[var(--buff)] font-bold">Read More</a>
         </div>
 
-        <div class="bg-gray-100 p-6 rounded shadow-md hover:shadow-lg transition duration-300 max-w-xs mx-auto">
-          <p class="text-xl font-semibold text-gray-800 mb-4">Article Title 3</p>
-          <p class="text-gray-600 mb-4">Curabitur nec nisi et arcu feugiat posuere.</p>
-          <a href="#" class="text-[var(--blue)] hover:text-[var(--buff)] font-bold">Read More</a>
-        </div>
       </div>
-
     </div>
-
   </section>
 
   <footer class="bg-[#ffe5cf] py-4 px-2 h-[15vh]">
