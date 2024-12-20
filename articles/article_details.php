@@ -1,13 +1,43 @@
 <?php
+require '../config_db.php';
 session_start();
-if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
-  $first_name = $_SESSION['first_name'];
-  $last_name = $_SESSION['last_name'];
-  $role = ($_SESSION['role'] == 2) ? 'user' : 'admin';
-  $connected = true;
+
+if (isset($_GET['id'])) {
+  $article_id = intval($_GET['id']);
+  $query = "SELECT * FROM articles WHERE id = $article_id";
+  $result = mysqli_query($conn, $query);
+  if ($result) {
+    $article = mysqli_fetch_assoc($result);
+
+    $query = "SELECT tags.name
+            FROM tags
+            JOIN article_tag ON tags.id = article_tag.tag_id
+            JOIN articles ON article_tag.article_id = articles.id
+            WHERE articles.id = $article_id;";
+
+    $result = mysqli_query($conn, $query);
+    $tags = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    var_dump($tags);
+
+  } else {
+    header('Location: ../index.php');
+    exit();
+  }
+
+  if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
+    $first_name = $_SESSION['first_name'];
+    $last_name = $_SESSION['last_name'];
+    $role = ($_SESSION['role'] == 2) ? 'user' : 'admin';
+    $connected = true;
+  } else {
+    $connected = false;
+  }
+
 } else {
-  $connected = false;
+  header('Location: ../index.php');
+  exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -66,49 +96,35 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   </header>
 
   <section class="py-20 bg-white min-h-[75vh] w-[85%] mx-auto">
+
     <div class="container mx-auto px-6">
-      <!-- Article Header Section -->
       <div class="flex flex-col items-center text-center mb-10">
-        <!-- Article Image -->
-        <img src="../assets/sphereblog.png" alt="Article Image"
+        <img src="../uploads/<?= htmlspecialchars($article['image']); ?>" alt="Article Image"
           class="w-full max-w-3xl h-auto object-contain rounded-lg shadow-lg mb-6">
 
-        <!-- Article Title -->
-        <h1 class="text-4xl font-bold text-gray-800 mb-4">Article Title</h1>
+        <h1 class="text-4xl font-bold text-gray-800 mb-4"><?= htmlspecialchars($article['title']); ?></h1>
 
-        <!-- Article Description -->
-        <p class="text-xl text-gray-600 mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <p class="text-xl text-gray-600 mb-6"><?= htmlspecialchars($article['description']); ?></p>
 
-        <!-- Article Metadata (Date, Publisher) -->
         <div class="text-sm text-gray-500 mb-4">
-          <span>Published on: <strong>12/12/2024</strong></span> |
-          <span>By: <strong>Publisher Name</strong></span>
+          <span>Published on: <strong><?= date('m/d/Y', strtotime($article['publish_date'])); ?></strong></span> |
+          <span>By: <strong><?= htmlspecialchars($article['user_id']); ?></strong></span>
         </div>
 
-        <!-- Article Tags Section -->
-        <div class="flex flex-wrap gap-2 mb-6">
-          <span class="bg-blue-200 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full">Tag 1</span>
-          <span class="bg-blue-200 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full">Tag 2</span>
-          <span class="bg-blue-200 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full">Tag 3</span>
-          <span class="bg-blue-200 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full">Tag 4</span>
+        <div class="flex flex-wrap gap-2 mb-6 min-h-3">
+          <?php foreach ($tags as $tag) { ?>
+            <span
+              class="bg-blue-200 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full"><?= htmlspecialchars($tag['name']); ?></span>
+          <?php } ?>
         </div>
       </div>
 
-      <!-- Article Content Section -->
       <div class="prose prose-lg text-gray-700 max-w-none">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut velit ligula. Nulla facilisi. In
-          hac habitasse platea dictumst. Sed euismod, elit eu luctus malesuada, lorem leo volutpat mi, ac
-          malesuada nunc eros euismod elit. Nulla et urna mi. Ut nec augue purus. Fusce euismod, erat et
-          lobortis volutpat, nulla erat fermentum turpis, et laoreet urna libero eget metus. Vivamus pharetra
-          sollicitudin quam, ac lobortis mi venenatis vel.</p>
-        <p>Donec feugiat, nisi at faucibus facilisis, ipsum leo gravida magna, at tincidunt augue nunc at ante.
-          Phasellus sit amet nisi a ante accumsan tincidunt et eu purus. In at tristique urna, a tristique
-          metus. Integer non est eget tortor maximus sollicitudin. Nulla vel orci ipsum. Nunc tristique felis
-          orci, non elementum libero feugiat ut.</p>
-
-        <!-- You can add more paragraphs, images, or other media here -->
+        <p><?= nl2br(htmlspecialchars($article['content'])); ?></p>
       </div>
     </div>
+    </div>
+
   </section>
 
   <section class="pb-20 pt-10 bg-white min-h-[75vh] w-[85%] mx-auto">
@@ -133,21 +149,39 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
         </div>
       </div>
 
-      <!-- Comment Form (Single Input) -->
+      <!-- Comment Form -->
       <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Leave a Comment</h3>
-        <form action="submit_comment.php" method="POST">
-          <div class="mb-4">
-            <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
-            <input type="text" id="comment" name="comment" required
-              class="w-full border border-gray-300 rounded px-4 py-2 mt-2 focus:outline-none focus:ring focus:ring-blue-300"
-              placeholder="Write your comment here">
-          </div>
+        <?php
+        if ($connected) {
+          ?>
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">Leave a Comment</h3>
+          <form action="submit_comment.php" method="POST">
+            <div class="mb-4">
+              <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
+              <input type="text" id="comment" name="comment" required
+                class="w-full border border-gray-300 rounded px-4 py-2 mt-2 focus:outline-none focus:ring focus:ring-blue-300"
+                placeholder="Write your comment here">
+            </div>
 
-          <button type="submit"
-            class="w-52 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">Submit
-            Comment</button>
-        </form>
+            <button type="submit"
+              class="w-52 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">Submit
+              Comment</button>
+          </form>
+
+          <?php
+        } else {
+          ?>
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">
+            You need to <a href="../auth/login.php" class="text-blue-600 hover:text-blue-700">login</a> to leave a
+            comment.</h3>
+          <a href="../auth/login.php"><button
+              class="w-44 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">
+              Login</button>
+          </a>
+          <?php
+        }
+        ?>
+
       </div>
     </div>
   </section>
