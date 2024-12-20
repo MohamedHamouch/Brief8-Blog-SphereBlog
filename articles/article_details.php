@@ -8,7 +8,7 @@ if (isset($_POST['article'])) {
   $result = mysqli_query($conn, $query);
   if ($result) {
     $article = mysqli_fetch_assoc($result);
-    
+
     $query = "SELECT tags.name
             FROM tags
             JOIN article_tag ON tags.id = article_tag.tag_id
@@ -155,7 +155,7 @@ if (isset($_POST['article'])) {
           ?>
           <h3 class="text-xl font-semibold text-gray-800 mb-4">Leave a Comment</h3>
 
-          <form action="submit_comment.php" method="POST">
+          <form action="handel_forms/add_comment.php" method="POST">
             <div class="mb-4">
               <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
               <input type="text" id="comment" name="comment" required
@@ -163,7 +163,7 @@ if (isset($_POST['article'])) {
                 placeholder="Write your comment here">
             </div>
 
-            <button type="submit" action="handel_forms/add_comment.php" name="article" value="<?= $article_id ?>"
+            <button type="submit" name="article" value="<?= $article_id ?>"
               class="w-52 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">Submit
               Comment</button>
           </form>
