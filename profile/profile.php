@@ -1,10 +1,17 @@
 <?php
 session_start();
+require '../config_db.php';
+
 if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   $first_name = $_SESSION['first_name'];
   $last_name = $_SESSION['last_name'];
   $role = ($_SESSION['role'] == 2) ? 'user' : 'admin';
   $connected = true;
+
+  $query = "SELECT * FROM tags";
+  $result = mysqli_query($conn, $query);
+  $tags = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
 } else {
   header("Location: ../../index.php");
   exit();
@@ -84,7 +91,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
     </aside>
 
 
-    <!-- Main Content Area -->
     <div class="w-[80%] py-6 px-8">
 
       <!-- profile -->
@@ -115,8 +121,10 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       <!-- add article -->
       <section id="postArticle" class="content-section hidden">
         <h2 class="text-2xl text-blue-900 font-bold mb-4">Post New Article</h2>
-        <form action="/submit-article" method="POST" enctype="multipart/form-data"
+
+        <form action="handel_forms/add_article.php" method="POST" enctype="multipart/form-data"
           class="flex flex-col gap-5 bg-white p-6 rounded-lg shadow-md">
+
           <div>
             <label for="title" class="block text-lg font-medium">Title</label>
             <input type="text" id="title" name="title" maxlength="100" required
@@ -138,18 +146,37 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
               placeholder="Write your article content here"></textarea>
           </div>
 
-          <div>
-            <label for="image" class="block text-lg font-medium">Upload Image</label>
-            <input type="file" id="image" name="image" accept="image/*" required
-              class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+          <div class="flex gap-6 justify-between w-[80%] mx-auto">
+            <!-- Upload Image Section -->
+            <div class="w-[25%]">
+              <label for="image" class="block text-lg font-medium">Upload Image</label>
+              <input type="file" id="image" name="image" accept="image/*" required
+                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            </div>
+
+            <!-- Select Tags Section -->
+            <div class="w-[35%]">
+              <label for="tags" class="block text-lg font-medium mb-2">Select Tags</label>
+              <select id="tags" name="tags[]" multiple
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out shadow-md hover:shadow-lg">
+
+                <?php
+                foreach ($tags as $tag) {
+                  echo "<option value='" . $tag['id'] . "' class='text-gray-700 hover:bg-blue-100'>" . $tag['name'] . "</option>";
+                }
+                ?>
+
+              </select>
+            </div>
           </div>
 
           <button type="submit"
             class="w-36 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">
-            Submit Article</button>
+            Submit Article
+          </button>
         </form>
-
       </section>
+
 
       <!-- articles history -->
       <section id="historyArticles" class="content-section hidden">
