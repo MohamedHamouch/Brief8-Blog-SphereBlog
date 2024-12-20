@@ -7,6 +7,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   if ($role === 'admin') {
     $first_name = $_SESSION['first_name'];
     $last_name = $_SESSION['last_name'];
+    $email = $_SESSION['email'];
   } else {
     header("Location: ../../index.php");
     exit();
@@ -97,19 +98,19 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700">First Name</label>
-              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">John</p>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm"><?= $first_name?></p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Last Name</label>
-              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">Doe</p>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm"><?= $last_name?></p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Email</label>
-              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">john.doe@example.com</p>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm"><?= $email?></p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Role</label>
-              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm">User</p>
+              <p class="bg-white border border-gray-300 rounded-md py-2 px-4 mt-1 shadow-sm"><?= $role?></p>
             </div>
           </div>
         </div>
