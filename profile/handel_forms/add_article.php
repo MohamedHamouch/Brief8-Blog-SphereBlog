@@ -10,21 +10,21 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   $user_id = $_SESSION['user_id'];
-  $title = mysqli_real_escape_string($conn, $_POST['title']);
-  $description = mysqli_real_escape_string($conn, $_POST['description']);
-  $content = mysqli_real_escape_string($conn, $_POST['content']);
+  $title = test_input($_POST['title']);
+  $description = test_input($_POST['description']);
+  $content = test_input($_POST['content']);
   $tags = $_POST['tags'];
   $image = $_FILES['image'];
 
   if ($image['size'] > 5 * 1024 * 1024) {
-    $_SESSION['upload_error'] = 'Image size exceeds 5MB.';
+    // $_SESSION['upload_error'] = 'Image size exceeds 5MB.';
     header("Location: ../profile.php");
     exit();
   }
 
   $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
   if (!in_array($image['type'], $allowed_types)) {
-    $_SESSION['upload_error'] = 'Only JPEG, PNG, and GIF formats are allowed.';
+    // $_SESSION['upload_error'] = 'Only JPEG, PNG, and GIF formats are allowed.';
     header("Location: ../profile.php");
     exit();
   }
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $imageDestination = "../../uploads/" . $imageName;
 
   if (!move_uploaded_file($imageTmpName, $imageDestination)) {
-    $_SESSION['upload_error'] = 'Failed to move the uploaded file.';
+    // $_SESSION['upload_error'] = 'Failed to move the uploaded file.';
     header("Location: ../profile.php");
     exit();
   }
@@ -53,12 +53,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
     }
 
-    $_SESSION['success_message'] = 'Article has been successfully posted!';
+    // $_SESSION['success_message'] = 'Article has been successfully posted!';
     header("Location: ../profile.php");
     exit();
   } else {
-    $_SESSION['upload_error'] = 'Failed to insert the article into the database.';
+    // $_SESSION['upload_error'] = 'Failed to insert the article into the database.';
     header("Location: ../profile.php");
     exit();
   }
+}
+function test_input($input)
+{
+  $input = trim($input);
+  $input = stripslashes($input);
+  $input = htmlspecialchars($input);
+  return $input;
 }

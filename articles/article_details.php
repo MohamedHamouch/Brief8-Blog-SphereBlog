@@ -8,7 +8,7 @@ if (isset($_GET['article'])) {
   $result = mysqli_query($conn, $query);
   if ($result) {
     $article = mysqli_fetch_assoc($result);
-
+    var_dump($article_id);
     $query = "SELECT tags.name
             FROM tags
             JOIN article_tag ON tags.id = article_tag.tag_id
@@ -101,13 +101,13 @@ if (isset($_GET['article'])) {
         <img src="../uploads/<?= htmlspecialchars($article['image']); ?>" alt="Article Image"
           class="w-full max-w-3xl h-auto object-contain rounded-lg shadow-lg mb-6">
 
-        <h1 class="text-4xl font-bold text-gray-800 mb-4"><?= htmlspecialchars($article['title']); ?></h1>
+        <h1 class="text-4xl font-bold text-gray-800 mb-4"><?= $article['title']; ?></h1>
 
-        <p class="text-xl text-gray-600 mb-6"><?= htmlspecialchars($article['description']); ?></p>
+        <p class="text-xl text-gray-600 mb-6"><?= $article['description']; ?></p>
 
         <div class="text-sm text-gray-500 mb-4">
           <span>Published on: <strong><?= date('m/d/Y', strtotime($article['publish_date'])); ?></strong></span> |
-          <span>By: <strong><?= htmlspecialchars($article['user_id']); ?></strong></span>
+          <span>By: <strong><?= $article['user_id']; ?></strong></span>
         </div>
 
         <div class="flex flex-wrap gap-2 mb-6 min-h-3">
@@ -119,7 +119,7 @@ if (isset($_GET['article'])) {
       </div>
 
       <div class="prose prose-lg text-gray-700 max-w-none">
-        <p><?= nl2br(htmlspecialchars($article['content'])); ?></p>
+        <p><?= nl2br($article['content']); ?></p>
       </div>
     </div>
     </div>
@@ -154,6 +154,7 @@ if (isset($_GET['article'])) {
         if ($connected) {
           ?>
           <h3 class="text-xl font-semibold text-gray-800 mb-4">Leave a Comment</h3>
+
           <form action="submit_comment.php" method="POST">
             <div class="mb-4">
               <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
@@ -162,7 +163,7 @@ if (isset($_GET['article'])) {
                 placeholder="Write your comment here">
             </div>
 
-            <button type="submit"
+            <button type="submit" action="handel_forms/add_comment.php" name="article" value="<?= $article_id ?>"
               class="w-52 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">Submit
               Comment</button>
           </form>
