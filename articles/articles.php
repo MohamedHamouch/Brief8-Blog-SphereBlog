@@ -1,5 +1,6 @@
 <?php
 session_start();
+require '../config_db.php';
 if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   $first_name = $_SESSION['first_name'];
   $last_name = $_SESSION['last_name'];
@@ -8,6 +9,11 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 } else {
   $connected = false;
 }
+
+$query = "SELECT * FROM articles";
+$result = mysqli_query($conn, $query);
+$articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +37,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       </button>
       <nav class="nav px-2">
         <ul class="flex gap-1">
-          <li><a href="../index.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Home</a></li>
+          <li><a href="../index.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Home</a>
+          </li>
           <li><a href="articles.php" class="text-gray-800 bg-[var(--buff)] py-2 px-4 rounded">Articles</a>
           </li>
           <?php
@@ -48,7 +55,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
                    bg-gray-800 text-white mt-2 rounded shadow-lg w-full">
                 <li><a href="../profile/profile.php" class="block px-4 py-2 hover:bg-gray-600 rounded-t">Profile</a></li>
                 <?php if ($role === "admin") { ?>
-                  <li><a href="../admin/dashboard.php" class="block px-4 py-2 hover:bg-gray-600">Admin Dashboard</a></li>
+                  <li><a href="../admin/dashboard.php" class="block px-4 py-2 hover:bg-gray-600">Admin
+                      Dashboard</a></li>
                 <?php } ?>
                 <li><a href="../auth/handel_auth/logout.php"
                     class="block px-4 py-2 hover:bg-gray-600 rounded-b">Logout</a></li>
@@ -82,25 +90,23 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       <h1 class="text-3xl font-bold text-gray-800">All Articles</h1>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center items-center">
 
-        <div class="bg-gray-100 p-6 rounded shadow-md hover:shadow-lg transition duration-300 max-w-xs mx-auto">
-          <div class="mb-4">
-            <img src="../assets/sphereblog.png" alt="Article Image" class="w-full h-48 object-cover rounded-md">
+        <?php
+        foreach ($articles as $article) {
+          ?>
+          <div class="bg-gray-100 p-6 rounded shadow-md hover:shadow-lg transition duration-300 max-w-xs mx-auto">
+            <div class="mb-4">
+              <img src="../uploads/<?= htmlspecialchars($article['image']); ?>" alt="Article Image"
+                class="w-full h-48 object-cover rounded-md">
+            </div>
+            <p class="text-xl font-semibold text-gray-800 mb-4"><?= $article['title']; ?></p>
+            <p class="text-gray-600 mb-4"><?= $article['description']; ?></p>
+            <p class="text-xs text-[var(--black)] mb-2 font-semibold"><?= $article['publish_date']; ?></p>
+            <a href="article_details.php?id=<?= htmlspecialchars($article['id']); ?>"
+              class="text-[var(--blue)] hover:text-[var(--buff)] font-bold">Read More</a>
           </div>
-          <p class="text-xl font-semibold text-gray-800 mb-4">Article Title 1</p>
-          <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <p class="text-xs text-[var(--black)] mb-2 font-semibold">12/12/2024</p>
-          <a href="#" class="text-[var(--blue)] hover:text-[var(--buff)] font-bold">Read More</a>
-        </div>
-
-        <div class="bg-gray-100 p-6 rounded shadow-md hover:shadow-lg transition duration-300 max-w-xs mx-auto">
-          <div class="mb-4">
-            <img src="../assets/sphereblog.png" alt="Article Image" class="w-full h-48 object-cover rounded-md">
-          </div>
-          <p class="text-xl font-semibold text-gray-800 mb-4">Article Title 1</p>
-          <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <p class="text-xs text-[var(--black)] mb-2 font-semibold">12/12/2024</p>
-          <a href="#" class="text-[var(--blue)] hover:text-[var(--buff)] font-bold">Read More</a>
-        </div>
+          <?php
+        }
+        ?>
 
       </div>
     </div>
