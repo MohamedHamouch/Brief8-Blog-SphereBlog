@@ -5,7 +5,7 @@ session_start();
 if (isset($_GET['article'])) {
   $article_id = $_GET['article'];
   $stmt = mysqli_prepare($conn, "SELECT * FROM articles WHERE id = ?");
-  mysqli_stmt_bind_param($stmt, 'i', $article_id); // 'i' specifies the type (integer)
+  mysqli_stmt_bind_param($stmt, 'i', $article_id); 
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
