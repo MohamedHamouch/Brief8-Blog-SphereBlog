@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (isset($_POST['email']) && isset($_POST['password'])) {
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = test_input($_POST['email']);
+    $password = ($_POST['password']);
 
     $query = "SELECT * FROM Users WHERE email = ?";
     $stmt = mysqli_prepare($conn, $query);
@@ -46,4 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   header("Location: ../login.php");
   mysqli_close($conn);
+}
+
+function test_input($input)
+{
+  $input = trim($input);
+  $input = stripslashes($input);
+  $input = htmlspecialchars($input);
+  return $input;
 }

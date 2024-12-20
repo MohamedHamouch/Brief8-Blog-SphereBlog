@@ -12,11 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     isset($_POST['email']) && isset($_POST['first_name']) && isset($_POST['last_name'])
     && isset($_POST['password']) && isset($_POST['confirm_password'])
   ) {
-    $email = $_POST['email'];
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    $email = test_input($_POST['email']);
+    $first_name = test_input($_POST['first_name']);
+    $last_name = test_input($_POST['last_name']);
+    $password = test_input($_POST['password']);
+    $confirm_password = test_input($_POST['confirm_password']);
 
     if ($password === $confirm_password) {
       $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -59,4 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   header("location: ../register.php");
   mysqli_close($conn);
+}
+
+function test_input($input)
+{
+  $input = trim($input);
+  $input = stripslashes($input);
+  $input = htmlspecialchars($input);
+  return $input;
 }
