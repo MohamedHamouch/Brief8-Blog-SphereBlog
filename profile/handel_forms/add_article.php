@@ -39,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit();
   }
 
-  $stmt = mysqli_prepare($conn, "INSERT INTO articles (user_id, title, description, content, image) VALUES (?, ?, ?, ?, ?)");
+  $query = "INSERT INTO articles (user_id, title, description, content, image) VALUES (?, ?, ?, ?, ?)";
+  $stmt = mysqli_prepare($conn, $query);
   mysqli_stmt_bind_param($stmt, "issss", $user_id, $title, $description, $content, $imageName);
 
   if (mysqli_stmt_execute($stmt)) {
