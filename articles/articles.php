@@ -98,11 +98,16 @@ $articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
               <img src="../uploads/<?= htmlspecialchars($article['image']); ?>" alt="Article Image"
                 class="w-full h-48 object-cover rounded-md">
             </div>
-            <p class="text-xl font-semibold text-gray-800 mb-4"><?= $article['title']; ?></p>
-            <p class="text-gray-600 mb-4"><?= $article['description']; ?></p>
-            <p class="text-xs text-[var(--black)] mb-2 font-semibold"><?= $article['publish_date']; ?></p>
-            <a href="article_details.php?article=<?= $article['id']; ?>"
-              class="text-[var(--blue)] hover:text-[var(--buff)] font-bold">Read More</a>
+            <p class="text-xl font-semibold text-gray-800 mb-4"><?= htmlspecialchars($article['title']); ?></p>
+            <p class="text-gray-600 mb-4"><?= htmlspecialchars($article['description']); ?></p>
+            <p class="text-xs text-[var(--black)] mb-2 font-semibold"><?= htmlspecialchars($article['publish_date']); ?>
+            </p>
+            <form method="POST" action="article_details.php">
+              <button type="submit" name="article" value="<?= htmlspecialchars($article['id']); ?>"
+                class="w-40 bg-[var(--blue)] text-white py-2 px-4 rounded hover:bg-[var(--buff)] font-bold transition">
+                Read More
+              </button>
+            </form>
           </div>
           <?php
         }

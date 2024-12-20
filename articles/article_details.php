@@ -2,13 +2,13 @@
 require '../config_db.php';
 session_start();
 
-if (isset($_GET['article'])) {
-  $article_id = intval($_GET['article']);
+if (isset($_POST['article'])) {
+  $article_id = $_POST['article'];
   $query = "SELECT * FROM articles WHERE id = $article_id";
   $result = mysqli_query($conn, $query);
   if ($result) {
     $article = mysqli_fetch_assoc($result);
-    var_dump($article_id);
+    
     $query = "SELECT tags.name
             FROM tags
             JOIN article_tag ON tags.id = article_tag.tag_id
