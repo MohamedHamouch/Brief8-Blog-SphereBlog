@@ -2,8 +2,8 @@
 require '../config_db.php';
 session_start();
 
-if (isset($_GET['id'])) {
-  $article_id = intval($_GET['id']);
+if (isset($_GET['article'])) {
+  $article_id = intval($_GET['article']);
   $query = "SELECT * FROM articles WHERE id = $article_id";
   $result = mysqli_query($conn, $query);
   if ($result) {
@@ -17,7 +17,6 @@ if (isset($_GET['id'])) {
 
     $result = mysqli_query($conn, $query);
     $tags = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    var_dump($tags);
 
   } else {
     header('Location: ../index.php');
