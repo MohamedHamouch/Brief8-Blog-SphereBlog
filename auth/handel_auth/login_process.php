@@ -43,5 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     }
   }
+  header("location: ../login.php");
   mysqli_close($conn);
 }
