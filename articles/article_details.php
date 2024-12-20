@@ -2,21 +2,28 @@
 require '../config_db.php';
 session_start();
 
-if (isset($_POST['article'])) {
-  $article_id = $_POST['article'];
+if (isset($_GET['article'])) {
+  $article_id = $_GET['article'];
   $query = "SELECT * FROM articles WHERE id = $article_id";
   $result = mysqli_query($conn, $query);
+  // var_dump($result);
   if ($result) {
     $article = mysqli_fetch_assoc($result);
+    if (!$article) {
+      $found = false;
+    } else {
+      $found = true;
+      // var_dump($found);
+      $query = "SELECT tags.name
+      FROM tags
+      JOIN article_tag ON tags.id = article_tag.tag_id
+      JOIN articles ON article_tag.article_id = articles.id
+      WHERE articles.id = $article_id;";
 
-    $query = "SELECT tags.name
-            FROM tags
-            JOIN article_tag ON tags.id = article_tag.tag_id
-            JOIN articles ON article_tag.article_id = articles.id
-            WHERE articles.id = $article_id;";
+      $result = mysqli_query($conn, $query);
+      $tags = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
 
-    $result = mysqli_query($conn, $query);
-    $tags = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
   } else {
     header('Location: ../index.php');
@@ -97,94 +104,108 @@ if (isset($_POST['article'])) {
   <section class="py-20 bg-white min-h-[75vh] w-[85%] mx-auto">
 
     <div class="container mx-auto px-6">
-      <div class="flex flex-col items-center text-center mb-10">
-        <img src="../uploads/<?= htmlspecialchars($article['image']); ?>" alt="Article Image"
-          class="w-full max-w-3xl h-auto object-contain rounded-lg shadow-lg mb-6">
+      <?php
+      if ($found) {
+        ?>
+        <div class="flex flex-col items-center text-center mb-10">
+          <img src="../uploads/<?= htmlspecialchars($article['image']); ?>" alt="Article Image"
+            class="w-full max-w-3xl h-auto object-contain rounded-lg shadow-lg mb-6">
 
-        <h1 class="text-4xl font-bold text-gray-800 mb-4"><?= $article['title']; ?></h1>
+          <h1 class="text-4xl font-bold text-gray-800 mb-4"><?= $article['title']; ?></h1>
 
-        <p class="text-xl text-gray-600 mb-6"><?= $article['description']; ?></p>
+          <p class="text-xl text-gray-600 mb-6"><?= $article['description']; ?></p>
 
-        <div class="text-sm text-gray-500 mb-4">
-          <span>Published on: <strong><?= date('m/d/Y', strtotime($article['publish_date'])); ?></strong></span> |
-          <span>By: <strong><?= $article['user_id']; ?></strong></span>
+          <div class="text-sm text-gray-500 mb-4">
+            <span>Published on: <strong><?= date('m/d/Y', strtotime($article['publish_date'])); ?></strong></span> |
+            <span>By: <strong><?= $article['user_id']; ?></strong></span>
+          </div>
+
+          <div class="flex flex-wrap gap-2 mb-6 min-h-3">
+            <?php foreach ($tags as $tag) { ?>
+              <span
+                class="bg-blue-200 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full"><?= htmlspecialchars($tag['name']); ?></span>
+            <?php } ?>
+          </div>
         </div>
 
-        <div class="flex flex-wrap gap-2 mb-6 min-h-3">
-          <?php foreach ($tags as $tag) { ?>
-            <span
-              class="bg-blue-200 text-blue-700 text-sm font-semibold px-3 py-1 rounded-full"><?= htmlspecialchars($tag['name']); ?></span>
-          <?php } ?>
+        <div class="prose prose-lg text-gray-700 max-w-none">
+          <p><?= nl2br($article['content']); ?></p>
         </div>
-      </div>
+        <?php
+      } else {
+        echo '<h1 class="text-5xl text-center font-bold text-gray-700 mb-4">NO SUCH ARTICLE</h1>';
+      }
+      ?>
 
-      <div class="prose prose-lg text-gray-700 max-w-none">
-        <p><?= nl2br($article['content']); ?></p>
-      </div>
     </div>
     </div>
 
   </section>
+  <?php
+  if ($found) {
+    ?>
+    <section class="pb-20 pt-10 bg-white min-h-[75vh] w-[85%] mx-auto">
+      <div class="container mx-auto px-6">
+        <!-- Comments Section -->
+        <div class="mb-10">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Comments</h2>
 
-  <section class="pb-20 pt-10 bg-white min-h-[75vh] w-[85%] mx-auto">
-    <div class="container mx-auto px-6">
-      <!-- Comments Section -->
-      <div class="mb-10">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Comments</h2>
-
-        <!-- Existing Comments -->
-        <div class="space-y-6">
-          <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-            <p class="text-sm text-gray-600"><strong>John Doe</strong> - <span class="text-gray-400">12/12/2024</span>
-            </p>
-            <p class="text-gray-800 mt-2">This is a comment about the article. Very informative and well-written!</p>
-          </div>
-
-          <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-            <p class="text-sm text-gray-600"><strong>Jane Smith</strong> - <span class="text-gray-400">12/13/2024</span>
-            </p>
-            <p class="text-gray-800 mt-2">I learned a lot from this article. Keep up the great work!</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Comment Form -->
-      <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-        <?php
-        if ($connected) {
-          ?>
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">Leave a Comment</h3>
-
-          <form action="handel_forms/add_comment.php" method="POST">
-            <div class="mb-4">
-              <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
-              <input type="text" id="comment" name="comment" required
-                class="w-full border border-gray-300 rounded px-4 py-2 mt-2 focus:outline-none focus:ring focus:ring-blue-300"
-                placeholder="Write your comment here">
+          <!-- Existing Comments -->
+          <div class="space-y-6">
+            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+              <p class="text-sm text-gray-600"><strong>John Doe</strong> - <span class="text-gray-400">12/12/2024</span>
+              </p>
+              <p class="text-gray-800 mt-2">This is a comment about the article. Very informative and well-written!</p>
             </div>
 
-            <button type="submit" name="article" value="<?= $article_id ?>"
-              class="w-52 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">Submit
-              Comment</button>
-          </form>
+            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+              <p class="text-sm text-gray-600"><strong>Jane Smith</strong> - <span class="text-gray-400">12/13/2024</span>
+              </p>
+              <p class="text-gray-800 mt-2">I learned a lot from this article. Keep up the great work!</p>
+            </div>
+          </div>
+        </div>
 
+        <!-- Comment Form -->
+        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
           <?php
-        } else {
+          if ($connected) {
+            ?>
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Leave a Comment</h3>
+
+            <form action="handel_forms/add_comment.php" method="POST">
+              <div class="mb-4">
+                <label for="comment" class="block text-sm font-medium text-gray-700">Comment</label>
+                <input type="text" id="comment" name="comment" required
+                  class="w-full border border-gray-300 rounded px-4 py-2 mt-2 focus:outline-none focus:ring focus:ring-blue-300"
+                  placeholder="Write your comment here">
+              </div>
+
+              <button type="submit" name="article" value="<?= $article_id ?>"
+                class="w-52 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">Submit
+                Comment</button>
+            </form>
+
+            <?php
+          } else {
+            ?>
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">
+              You need to <a href="../auth/login.php" class="text-blue-600 hover:text-blue-700">login</a> to leave a
+              comment.</h3>
+            <a href="../auth/login.php"><button
+                class="w-44 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">
+                Login</button>
+            </a>
+            <?php
+          }
           ?>
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">
-            You need to <a href="../auth/login.php" class="text-blue-600 hover:text-blue-700">login</a> to leave a
-            comment.</h3>
-          <a href="../auth/login.php"><button
-              class="w-44 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:ring focus:ring-blue-300 transition">
-              Login</button>
-          </a>
-          <?php
-        }
-        ?>
 
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+    <?php
+  }
+  ?>
 
 
   <footer class="bg-[#ffe5cf] py-4 px-2 h-[15vh]">
