@@ -16,138 +16,177 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlogSphere - Register</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
-  <link rel="stylesheet" href="../styles.css">
-
-  <title>BlogSphere - Register</title>
 </head>
 
-<body>
-  <header class="bg-[var(--light)] py-4 h-[10vh] sticky top-0">
-    <div class="mx-auto flex justify-between items-center">
-      <button class="logo">
-        <img src="../assets/sphereblog.png" alt="Logo" class="w-28">
-      </button>
-      <nav class="nav px-2">
-        <ul class="flex gap-1">
-          <li><a href="../index.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Home</a></li>
-          <li><a href="../articles/articles.php"
-              class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Articles</a></li>
-          <?php
-          if (!$connected) {
-            echo '<li><a href="register.php" class="text-white bg-black hover:bg-black/70 py-2 px-4 rounded-full">
-            <i class="fa-solid fa-user-plus"></i> Authentification</a></li>';
-          } else {
-            ?>
-            <li class="relative group text-white">
-              <a href="../profile/profile.php" class="bg-black hover:bg-black/70 py-2 px-4 rounded-full">
-                <i class="fa-solid fa-user"></i><?= " $first_name $last_name" ?>
-              </a>
-              <ul class="absolute hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity duration-300 
-                   bg-gray-800 text-white mt-2 rounded shadow-lg w-full">
-                <li><a href="../profile/profile.php" class="block px-4 py-2 hover:bg-gray-600 rounded-t">Profile</a></li>
-                <?php if ($role === "admin") { ?>
-                  <li><a href="../admin/dashboard.php" class="block px-4 py-2 hover:bg-gray-600">Admin Dashboard</a></li>
-                <?php } ?>
-                <li><a href="handel_auth/logout.php" class="block px-4 py-2 hover:bg-gray-600 rounded-b">Logout</a></li>
-              </ul>
-            </li>
-            <?php
-          }
-          ?>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <!-- Navbar -->
+  <header class="bg-white shadow-sm fixed w-full z-50">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <a href="../index.php" class="flex items-center space-x-2">
+          <img src="../assets/sphereblog.png" alt="Logo" class="w-24 h-auto">
+        </a>
 
-        </ul>
-      </nav>
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="../index.php" class="text-gray-600 hover:text-orange-500 transition">Home</a>
+          <a href="../articles/articles.php" class="text-gray-600 hover:text-orange-500 transition">Articles</a>
+          <?php if (!$connected) { ?>
+            <a href="login.php" class="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600 transition">
+              <i class="fa-solid fa-user-plus mr-2"></i>Sign In
+            </a>
+          <?php } else { ?>
+            <div class="relative group">
+              <button
+                class="flex items-center space-x-2 bg-gray-900 text-white px-6 py-2 rounded-full hover:bg-gray-800 transition">
+                <i class="fa-solid fa-user"></i>
+                <span><?= "$first_name $last_name" ?></span>
+              </button>
+              <div
+                class="absolute right-0 w-48 mt-2 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform">
+                <a href="../profile/profile.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                <?php if ($role === "admin") { ?>
+                  <a href="../admin/dashboard.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Admin
+                    Dashboard</a>
+                <?php } ?>
+                <a href="handel_auth/logout.php" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Logout</a>
+              </div>
+            </div>
+          <?php } ?>
+        </nav>
+
+        <!-- Mobile menu button -->
+        <button class="md:hidden bg-gray-100 p-2 rounded-lg">
+          <i class="fas fa-bars text-gray-600"></i>
+        </button>
+      </div>
     </div>
   </header>
 
-  <section class="h-[75vh] flex flex-col justify-center mx-auto w-[50%]">
-    <?php
-    if ($connected) {
-      ?>
-      <h2 class="text-3xl text-center font-semibold text-gray-900">You are already loged in
-        <?= "$first_name $last_name" ?>
-      </h2>
-      <a href="../../index.php" class="mx-auto">
-        <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-          Go Home</button>
-      </a>
-      <?php
-    } else {
-      ?>
-      <div class="text-center mb-4">
-        <h2 class="text-xl font-semibold text-gray-900">Create Your Account</h2>
-        <p class="text-gray-600 mt-2">Already have an account? <a href="login.php"
-            class="text-blue-600 hover:underline">Login here</a></p>
-      </div>
-      <div class="text-center mb-4 min-h-5">
-        <?php if (isset($_SESSION['register_error'])) { ?>
-          <p class="text-red-500 text-sm font-semibold"><?= $_SESSION['register_error'] ?></p>
-          <?php unset($_SESSION['register_error']);
-        } ?>
-      </div>
-
-      <form action="handel_auth/register_process.php" method="POST" class="mx-auto w-2/3">
-        <div class="mb-5">
-          <label for="email" class="block mb-2 font-bold text-gray-900">Your email</label>
-          <input type="email" name="email" id="email"
-            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-            placeholder="Example@email.com" required />
-        </div>
-        <div class="flex gap-4 mb-5">
-          <div class="w-1/2">
-            <label for="first_name" class="block mb-2 font-bold text-gray-900">First name</label>
-            <input type="text" name="first_name" id="first_name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              placeholder="First name" required />
+  <!-- Main Content -->
+  <main class="flex-grow flex items-center justify-center pt-24 pb-16">
+    <div class="container mx-auto px-4">
+      <?php if ($connected) { ?>
+        <!-- Already Logged In State -->
+        <div class="max-w-md mx-auto bg-white rounded-xl shadow-sm p-8 text-center">
+          <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-user-check text-3xl text-orange-500"></i>
           </div>
-          <div class="w-1/2">
-            <label for="last_name" class="block mb-2 font-bold text-gray-900">Last name</label>
-            <input type="text" name="last_name" id="last_name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-              placeholder="Last name" required />
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">Welcome Back, <?= "$first_name $last_name" ?>!</h2>
+          <p class="text-gray-600 mb-6">You are already logged in to your account.</p>
+          <a href="../index.php"
+            class="inline-block bg-orange-500 text-white px-8 py-3 rounded-full hover:bg-orange-600 transform hover:-translate-y-0.5 transition">
+            Go to Homepage
+          </a>
+        </div>
+      <?php } else { ?>
+        <!-- Register Form -->
+        <div class="max-w-md mx-auto">
+          <div class="bg-white rounded-xl shadow-sm p-8">
+            <div class="text-center mb-8">
+              <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-user-plus text-3xl text-orange-500"></i>
+              </div>
+              <h2 class="text-2xl font-bold text-gray-900">Create Account</h2>
+              <p class="text-gray-600 mt-2">Already have an account?
+                <a href="login.php" class="text-orange-500 hover:text-orange-600">Sign in here</a>
+              </p>
+            </div>
+
+            <?php if (isset($_SESSION['register_error'])) { ?>
+              <div class="bg-red-50 text-red-500 text-sm p-4 rounded-lg mb-6">
+                <?= $_SESSION['register_error'] ?>
+              </div>
+              <?php unset($_SESSION['register_error']); ?>
+            <?php } ?>
+
+            <form action="handel_auth/register_process.php" method="POST">
+              <div class="space-y-6">
+                <div>
+                  <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email address</label>
+                  <input type="email" name="email" id="email" required
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                    placeholder="Enter your email">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First name</label>
+                    <input type="text" name="first_name" id="first_name" required
+                      class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                      placeholder="First name">
+                  </div>
+                  <div>
+                    <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">Last name</label>
+                    <input type="text" name="last_name" id="last_name" required
+                      class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                      placeholder="Last name">
+                  </div>
+                </div>
+
+                <div>
+                  <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                  <input type="password" name="password" id="password" required
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                    placeholder="Create a password">
+                </div>
+
+                <div>
+                  <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-2">Confirm
+                    password</label>
+                  <input type="password" name="confirm_password" id="confirm_password" required
+                    class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                    placeholder="Confirm your password">
+                </div>
+
+                <button type="submit"
+                  class="w-full bg-orange-500 text-white px-6 py-3 rounded-full hover:bg-orange-600 transform hover:-translate-y-0.5 transition">
+                  Create Account
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-        <div class="mb-5">
-          <label for="password" class="block mb-2 font-bold text-gray-900">Your password</label>
-          <input type="password" name="password" id="password"
-            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-            required />
-        </div>
-        <div class="mb-5">
-          <label for="confirm_password" class="block mb-2 font-bold text-gray-900">Confirm your password</label>
-          <input type="password" name="confirm_password" id="confirm_password"
-            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-            required />
-        </div>
-        <button type="submit"
-          class="text-white text-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-6 py-2">Register</button>
-      </form>
-      <?php
-    }
-    ?>
-  </section>
-
-
-
-
-  <footer class="bg-[#ffe5cf] py-4 px-2 h-[15vh]">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="logo">
-        <img src="../assets/sphereblog.png" alt="Logo" class="w-24">
-      </div>
-
-      <nav>
-        <ul class="flex space-x-8">
-          <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Home</a></li>
-          <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Articles</a></li>
-          <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Contact</a></li>
-        </ul>
-      </nav>
+      <?php } ?>
     </div>
-    <div class="text-center text-xs mt-8">
-      <p class="text-gray-800">© 2024 Your Platform. All rights reserved.</p>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4 py-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+        <div>
+          <img src="../assets/sphereblog.png" alt="Logo" class="w-20 mb-2">
+          <p class="text-gray-400 text-sm">Share your stories with the world.</p>
+        </div>
+        <div class="flex justify-center">
+          <ul class="space-y-1 text-center">
+            <li><a href="../index.php" class="text-gray-400 hover:text-white transition text-sm">Home</a></li>
+            <li><a href="../articles/articles.php"
+                class="text-gray-400 hover:text-white transition text-sm">Articles</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Contact</a></li>
+          </ul>
+        </div>
+        <div class="flex flex-col items-end">
+          <h3 class="text-sm font-semibold mb-2">Follow Us</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-4 pt-4 text-center">
+        <p class="text-gray-400 text-xs">&copy; 2024 BlogSphere. All rights reserved.</p>
+      </div>
     </div>
   </footer>
 </body>
