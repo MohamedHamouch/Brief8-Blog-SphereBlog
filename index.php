@@ -1,5 +1,6 @@
 <?php
 session_start();
+require 'config_db.php';
 if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   $first_name = $_SESSION['first_name'];
   $last_name = $_SESSION['last_name'];
@@ -8,7 +9,12 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 } else {
   $connected = false;
 }
-?>
+$query = "SELECT * FROM articles  
+        ORDER BY publish_date DESC
+        LIMIT 4";
+$result = mysqli_query($conn, $query);
+$articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
+?>;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -88,16 +94,23 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
     <div class="container mx-auto px-4">
       <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Latest Articles</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <?php for ($i = 0; $i < 4; $i++) { ?>
+        <?php foreach ($articles as $article) { ?>
           <article
-            class="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden border border-gray-100">
-            <img src="../assets/sphereblog.png" alt="Article Image" class="w-full h-48 object-cover">
+            class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 overflow-hidden group">
+            <div class="aspect-w-16 aspect-h-9 overflow-hidden">
+              <img src="../uploads/<?= $article['image']; ?>" alt="<?= $article['title']; ?>"
+                class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+            </div>
             <div class="p-6">
-              <p class="text-sm text-orange-500 font-medium mb-2">Dec 12, 2024</p>
-              <h3 class="text-xl font-semibold text-gray-900 mb-3">Article Title <?= $i + 1 ?></h3>
-              <p class="text-gray-600 mb-4 line-clamp-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore.</p>
-              <a href="#" class="inline-flex items-center text-orange-500 hover:text-orange-600 font-medium">
+              <p class="text-sm text-orange-500 font-medium mb-2"><?= $article['publish_date']; ?></p>
+              <h2 class="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
+                <?= $article['title']; ?>
+              </h2>
+              <p class="text-gray-600 mb-4 line-clamp-3">
+                <?= $article['description']; ?>
+              </p>
+              <a href="article_details.php?article=<?= $article['id']; ?>"
+                class="inline-flex items-center text-orange-500 hover:text-orange-600 font-medium group-hover:translate-x-1 transition-transform duration-200">
                 Read More
                 <i class="fas fa-arrow-right ml-2 text-sm"></i>
               </a>
