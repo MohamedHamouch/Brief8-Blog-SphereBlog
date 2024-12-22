@@ -58,7 +58,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
           </div>
         </nav>
 
-        <!-- Mobile menu button -->
         <!-- <button class="md:hidden bg-gray-100 p-2 rounded-lg">
           <i class="fas fa-bars text-gray-600"></i>
         </button> -->
@@ -103,7 +102,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
       <!-- profile -->
       <section id="profile" class="content-section">
         <div class="max-w-4xl mx-auto">
-         
+
           <div class="mb-8">
             <h2 class="text-3xl font-bold text-gray-900">Your Profile</h2>
             <p class="mt-2 text-gray-600">View and manage your account information</p>
@@ -112,7 +111,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
           <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
+
                 <div class="space-y-2">
                   <label class="text-sm font-medium text-gray-600">First Name</label>
                   <div class="p-3 bg-gray-50 rounded-lg border border-gray-200">
@@ -167,7 +166,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
             class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6 space-y-6">
 
-            <div class="space-y-2">
+              <div class="space-y-2">
                 <label for="title" class="text-sm font-medium text-gray-600">Title</label>
                 <input type="text" id="title" name="title" maxlength="100" required
                   class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors"

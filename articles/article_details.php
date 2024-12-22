@@ -5,7 +5,7 @@ session_start();
 if (isset($_GET['article'])) {
   $article_id = $_GET['article'];
   $stmt = mysqli_prepare($conn, "SELECT * FROM articles WHERE id = ?");
-  mysqli_stmt_bind_param($stmt, 'i', $article_id); 
+  mysqli_stmt_bind_param($stmt, 'i', $article_id);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
@@ -15,17 +15,16 @@ if (isset($_GET['article'])) {
       $found = false;
     } else {
       $found = true;
-      $stmt_tags = mysqli_prepare(
-        $conn,
-        "SELECT tags.name 
-             FROM tags 
+
+      $name_result = mysqli_query($conn, "SELECT * FROM users WHERE id = {$article["user_id"]}");
+      $publisher = mysqli_fetch_assoc($name_result);
+
+      $tags_query = "SELECT tags.name FROM tags 
              JOIN article_tag ON tags.id = article_tag.tag_id 
-             WHERE article_tag.article_id = ?"
-      );
-      mysqli_stmt_bind_param($stmt_tags, 'i', $article_id);
-      mysqli_stmt_execute($stmt_tags);
-      $result_tags = mysqli_stmt_get_result($stmt_tags);
-      $tags = mysqli_fetch_all($result_tags, MYSQLI_ASSOC);
+             WHERE article_tag.article_id = $article_id";
+
+      $tags_result = mysqli_query($conn, $tags_query);
+      $tags = mysqli_fetch_all($tags_result, MYSQLI_ASSOC);
     }
   } else {
     header('Location: ../index.php');
@@ -52,13 +51,13 @@ if (isset($_GET['article'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BlogSphere - <?= $found ? htmlspecialchars($article['title']) : 'Article Not Found' ?></title>
+  <title>BlogSphere - <?= $found ? $article['title'] : 'Article Not Found' ?></title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
-  <!-- Navbar -->
+
   <header class="bg-white shadow-sm fixed w-full z-50">
     <div class="container mx-auto px-4 py-3">
       <div class="flex justify-between items-center">
@@ -94,16 +93,16 @@ if (isset($_GET['article'])) {
           <?php } ?>
         </nav>
 
-        <!-- Mobile menu button -->
-        <button class="md:hidden bg-gray-100 p-2 rounded-lg">
+
+        <!-- <button class="md:hidden bg-gray-100 p-2 rounded-lg">
           <i class="fas fa-bars text-gray-600"></i>
-        </button>
+        </button> -->
       </div>
     </div>
   </header>
 
   <?php if ($found) { ?>
-    <!-- Article Hero Section -->
+
     <section class="pt-24 pb-8 bg-gradient-to-b from-orange-100 to-white">
       <div class="container mx-auto px-4 py-8">
         <div class="max-w-4xl mx-auto">
@@ -112,21 +111,20 @@ if (isset($_GET['article'])) {
           <div class="flex flex-wrap gap-2 mb-6">
             <?php foreach ($tags as $tag) { ?>
               <span
-                class="bg-orange-100 text-orange-600 text-sm font-medium px-3 py-1 rounded-full"><?= htmlspecialchars($tag['name']); ?></span>
+                class="bg-orange-100 text-orange-600 text-sm font-medium px-3 py-1 rounded-full"><?= $tag['name']; ?></span>
             <?php } ?>
           </div>
-          <h1 class="text-4xl font-bold text-gray-900 mb-4"><?= htmlspecialchars($article['title']); ?></h1>
-          <p class="text-xl text-gray-600 mb-6"><?= htmlspecialchars($article['description']); ?></p>
+          <h1 class="text-4xl font-bold text-gray-900 mb-4"><?= $article['title']; ?></h1>
+          <p class="text-xl text-gray-600 mb-6"><?= $article['description']; ?></p>
           <div class="flex items-center text-sm text-gray-500">
-            <span class="mr-4"><i
-                class="far fa-calendar mr-2"></i><?= date('F j, Y', strtotime($article['publish_date'])); ?></span>
-            <span><i class="far fa-user mr-2"></i>By <?= htmlspecialchars($article['user_id']); ?></span>
+            <span class="mr-4"><i class="far fa-calendar mr-2"></i><?= $article['publish_date']; ?></span>
+            <span><i class="far fa-user mr-2"></i>By
+              <?= "{$publisher['first_name']} {$publisher['last_name']}"; ?></span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Article Content -->
     <section class="py-12 bg-white">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto prose prose-lg">
@@ -135,13 +133,12 @@ if (isset($_GET['article'])) {
       </div>
     </section>
 
-    <!-- Comments Section -->
+
     <section class="py-12 bg-gray-50">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-gray-900 mb-8">Comments</h2>
 
-          <!-- Existing Comments -->
           <div class="space-y-6 mb-12">
             <div class="bg-white p-6 rounded-xl shadow-sm">
               <div class="flex items-center mb-4">
@@ -157,7 +154,6 @@ if (isset($_GET['article'])) {
             </div>
           </div>
 
-          <!-- Comment Form -->
           <?php if ($connected) { ?>
             <div class="bg-white p-6 rounded-xl shadow-sm">
               <h3 class="text-xl font-bold text-gray-900 mb-6">Leave a Comment</h3>
@@ -188,7 +184,6 @@ if (isset($_GET['article'])) {
       </div>
     </section>
   <?php } else { ?>
-    <!-- Not Found Section -->
     <section class="pt-32 pb-20 bg-gradient-to-b from-orange-100 to-white">
       <div class="container mx-auto px-4 text-center">
         <h1 class="text-4xl font-bold text-gray-900 mb-6">Article Not Found</h1>
@@ -201,7 +196,6 @@ if (isset($_GET['article'])) {
     </section>
   <?php } ?>
 
-  <!-- Footer -->
   <footer class="bg-gray-900 text-white mt-auto">
     <div class="container mx-auto px-4 py-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
@@ -236,6 +230,7 @@ if (isset($_GET['article'])) {
       </div>
     </div>
   </footer>
+
 </body>
 
 </html>

@@ -22,8 +22,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
-  <!-- Navbar -->
-  <header class="bg-white shadow-sm fixed w-full z-50">
+
+<header class="bg-white shadow-sm fixed w-full z-50">
     <div class="container mx-auto px-4 py-3">
       <div class="flex justify-between items-center">
         <a href="../index.php" class="flex items-center space-x-2">
@@ -57,19 +57,17 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
           <?php } ?>
         </nav>
 
-        <!-- Mobile menu button -->
-        <button class="md:hidden bg-gray-100 p-2 rounded-lg">
+        <!-- <button class="md:hidden bg-gray-100 p-2 rounded-lg">
           <i class="fas fa-bars text-gray-600"></i>
-        </button>
+        </button> -->
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
   <main class="flex-grow flex items-center justify-center pt-24 pb-16">
     <div class="container mx-auto px-4">
       <?php if ($connected) { ?>
-        <!-- Already Logged In State -->
+
         <div class="max-w-md mx-auto bg-white rounded-xl shadow-sm p-8 text-center">
           <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <i class="fas fa-user-check text-3xl text-orange-500"></i>
@@ -82,7 +80,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
           </a>
         </div>
       <?php } else { ?>
-        <!-- Register Form -->
+
         <div class="max-w-md mx-auto">
           <div class="bg-white rounded-xl shadow-sm p-8">
             <div class="text-center mb-8">
@@ -153,7 +151,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
     </div>
   </main>
 
-  <!-- Footer -->
   <footer class="bg-gray-900 text-white">
     <div class="container mx-auto px-4 py-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">

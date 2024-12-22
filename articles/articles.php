@@ -28,7 +28,7 @@ $articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
-  
+
   <header class="bg-white shadow-sm fixed w-full z-50">
     <div class="container mx-auto px-4 py-3">
       <div class="flex justify-between items-center">
@@ -63,7 +63,6 @@ $articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
           <?php } ?>
         </nav>
 
-        <!-- Mobile menu button -->
         <!-- <button class="md:hidden bg-gray-100 p-2 rounded-lg">
           <i class="fas fa-bars text-gray-600"></i>
         </button> -->
