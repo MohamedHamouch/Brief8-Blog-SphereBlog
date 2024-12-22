@@ -1,48 +1,6 @@
 <?php
-require '../config_db.php';
-session_start();
+require 'select_article_data.php';
 
-if (isset($_GET['article'])) {
-  $article_id = $_GET['article'];
-  $stmt = mysqli_prepare($conn, "SELECT * FROM articles WHERE id = ?");
-  mysqli_stmt_bind_param($stmt, 'i', $article_id);
-  mysqli_stmt_execute($stmt);
-  $result = mysqli_stmt_get_result($stmt);
-
-  if ($result) {
-    $article = mysqli_fetch_assoc($result);
-    if (!$article) {
-      $found = false;
-    } else {
-      $found = true;
-
-      $name_result = mysqli_query($conn, "SELECT * FROM users WHERE id = {$article["user_id"]}");
-      $publisher = mysqli_fetch_assoc($name_result);
-
-      $tags_query = "SELECT tags.name FROM tags 
-             JOIN article_tag ON tags.id = article_tag.tag_id 
-             WHERE article_tag.article_id = $article_id";
-
-      $tags_result = mysqli_query($conn, $tags_query);
-      $tags = mysqli_fetch_all($tags_result, MYSQLI_ASSOC);
-    }
-  } else {
-    header('Location: ../index.php');
-    exit();
-  }
-
-  if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
-    $first_name = $_SESSION['first_name'];
-    $last_name = $_SESSION['last_name'];
-    $role = ($_SESSION['role'] == 2) ? 'user' : 'admin';
-    $connected = true;
-  } else {
-    $connected = false;
-  }
-} else {
-  header('Location: ../index.php');
-  exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -140,21 +98,40 @@ if (isset($_GET['article'])) {
           <h2 class="text-3xl font-bold text-gray-900 mb-8">Comments</h2>
 
           <div class="space-y-6 mb-12">
-            <div class="bg-white p-6 rounded-xl shadow-sm">
-              <div class="flex items-center mb-4">
-                <div class="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
-                  <i class="fas fa-user text-orange-500"></i>
-                </div>
-                <div class="ml-4">
-                  <p class="font-medium text-gray-900">John Doe</p>
-                  <p class="text-sm text-gray-500">December 12, 2024</p>
+            <?php
+            if (empty($comments)) { ?>
+              <div class="bg-white p-8 rounded-xl shadow-sm text-center">
+                <div class="flex flex-col items-center">
+                  <div class="h-16 w-16 mb-4 rounded-full bg-orange-100 flex items-center justify-center">
+                    <i class="fas fa-comments text-orange-500 text-2xl"></i>
+                  </div>
+                  <h4 class="text-lg font-medium text-gray-900 mb-2">No Comments Yet</h4>
+                  <p class="text-gray-600">Be the first to share your thoughts on this article!</p>
                 </div>
               </div>
-              <p class="text-gray-600">This is a comment about the article. Very informative and well-written!</p>
-            </div>
+              <?php
+            } else {
+              foreach ($comments as $comment) {
+                ?>
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                  <div class="flex items-center mb-4">
+                    <div class="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                      <i class="fas fa-user text-orange-500"></i>
+                    </div>
+                    <div class="ml-4">
+                      <p class="font-medium text-gray-900"><?= "{$comment['first_name']} {$comment['last_name']}" ?> </p>
+                      <p class="text-sm text-gray-500"><?= $comment['comment_date'] ?></p>
+                    </div>
+                  </div>
+                  <p class="text-gray-600"><?= $comment['comment_date'] ?></p>
+                </div>
+
+              <?php }
+            } ?>
           </div>
 
           <?php if ($connected) { ?>
+
             <div class="bg-white p-6 rounded-xl shadow-sm">
               <h3 class="text-xl font-bold text-gray-900 mb-6">Leave a Comment</h3>
               <form action="handel_forms/add_comment.php" method="POST">
@@ -164,13 +141,15 @@ if (isset($_GET['article'])) {
                     class="w-full border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Share your thoughts...">
                 </div>
-                <button type="submit" name="article" value="<?= $article_id ?>"
+                <button type="submit" name="article" value="<?= $article['id'] ?>"
                   class="bg-orange-500 text-white px-6 py-3 rounded-full hover:bg-orange-600 transition">
                   Post Comment
                 </button>
               </form>
             </div>
+
           <?php } else { ?>
+
             <div class="bg-white p-6 rounded-xl shadow-sm text-center">
               <h3 class="text-xl font-bold text-gray-900 mb-4">Join the Discussion</h3>
               <p class="text-gray-600 mb-6">Sign in to leave a comment on this article.</p>
@@ -183,7 +162,9 @@ if (isset($_GET['article'])) {
         </div>
       </div>
     </section>
+
   <?php } else { ?>
+
     <section class="pt-32 pb-20 bg-gradient-to-b from-orange-100 to-white">
       <div class="container mx-auto px-4 text-center">
         <h1 class="text-4xl font-bold text-gray-900 mb-6">Article Not Found</h1>
