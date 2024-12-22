@@ -2,6 +2,7 @@
 session_start();
 
 require '../../config_db.php';
+
 if (!isset($_SESSION['user_id'])) {
   header("Location: ../../index.php");
   exit();
@@ -17,12 +18,7 @@ if (!isset($_SESSION['user_id'])) {
       mysqli_stmt_bind_param($stmt, "iis", $article_id, $user_id, $comment);
 
       if (mysqli_stmt_execute($stmt)) {
-        echo '<form id="redirectForm" action="../article_details.php" method="POST">
-                  <input type="hidden" name="article" value="' . $article_id . '" />
-                  <script type="text/javascript">
-                      document.getElementById("redirectForm").submit();
-                  </script>
-              </form>';
+        header("Location: ../article_details.php?article=$article_id");
         exit();
       } else {
         echo "Error inserting comment: " . mysqli_error($conn);
