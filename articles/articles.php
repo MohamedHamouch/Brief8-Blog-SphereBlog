@@ -13,7 +13,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 $query = "SELECT * FROM articles";
 $result = mysqli_query($conn, $query);
 $articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -23,118 +22,130 @@ $articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BlogSphere - Articles</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
   <link rel="stylesheet" href="../styles.css">
-
-  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100">
-  <header class="bg-[var(--light)] py-4 h-[10vh] sticky top-0">
-    <div class="mx-auto flex justify-between items-center">
-      <button class="logo">
-        <img src="../assets/sphereblog.png" alt="Logo" class="w-28">
-      </button>
-      <nav class="nav px-2">
-        <ul class="flex gap-1">
-          <li><a href="../index.php" class="text-gray-800 hover:bg-[var(--buff)] py-2 px-4 rounded">Home</a>
-          </li>
-          <li><a href="articles.php" class="text-gray-800 bg-[var(--buff)] py-2 px-4 rounded">Articles</a>
-          </li>
-          <?php
-          if (!$connected) {
-            echo '<li><a href="../auth/login.php" class="text-white bg-black hover:bg-black/70 py-2 px-4 rounded-full">
-            <i class="fa-solid fa-user-plus"></i> Authentification</a></li>';
-          } else {
-            ?>
-            <li class="relative group text-white">
-              <a href="../profile/profile.php" class="bg-black hover:bg-black/70 py-2 px-4 rounded-full">
-                <i class="fa-solid fa-user"></i><?= " $first_name $last_name" ?>
-              </a>
-              <ul class="absolute hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity duration-300 
-                   bg-gray-800 text-white mt-2 rounded shadow-lg w-full">
-                <li><a href="../profile/profile.php" class="block px-4 py-2 hover:bg-gray-600 rounded-t">Profile</a></li>
-                <?php if ($role === "admin") { ?>
-                  <li><a href="../admin/dashboard.php" class="block px-4 py-2 hover:bg-gray-600">Admin
-                      Dashboard</a></li>
-                <?php } ?>
-                <li><a href="../auth/handel_auth/logout.php"
-                    class="block px-4 py-2 hover:bg-gray-600 rounded-b">Logout</a></li>
-              </ul>
-            </li>
-            <?php
-          }
-          ?>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  
+  <header class="bg-white shadow-sm fixed w-full z-50">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <a href="../index.php" class="flex items-center space-x-2">
+          <img src="../assets/sphereblog.png" alt="Logo" class="w-24 h-auto">
+        </a>
 
-        </ul>
-      </nav>
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="../index.php" class="text-gray-600 hover:text-orange-500 transition">Home</a>
+          <a href="articles.php" class="text-gray-900 hover:text-orange-500 font-medium transition">Articles</a>
+          <?php if (!$connected) { ?>
+            <a href="../auth/login.php"
+              class="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600 transition">
+              <i class="fa-solid fa-user-plus mr-2"></i>Sign In</a>
+          <?php } else { ?>
+            <div class="relative group">
+              <button
+                class="flex items-center space-x-2 bg-gray-900 text-white px-6 py-2 rounded-full hover:bg-gray-800 transition">
+                <i class="fa-solid fa-user"></i>
+                <span><?= "$first_name $last_name" ?></span>
+              </button>
+              <div
+                class="absolute right-0 w-48 mt-2 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform">
+                <a href="../profile/profile.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                <?php if ($role === "admin") { ?>
+                  <a href="../admin/dashboard.php" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Admin
+                    Dashboard</a>
+                <?php } ?>
+                <a href="../auth/handel_auth/logout.php" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Logout</a>
+              </div>
+            </div>
+          <?php } ?>
+        </nav>
+
+        <!-- Mobile menu button -->
+        <!-- <button class="md:hidden bg-gray-100 p-2 rounded-lg">
+          <i class="fas fa-bars text-gray-600"></i>
+        </button> -->
+      </div>
     </div>
   </header>
 
-  <section class="bg-[var(--medium)] h-[35vh] flex flex-col justify-center text-center">
-    <div class="container mx-auto">
-      <h2 class="text-3xl font-bold text-gray-800 mb-4">Explore Our Articles</h2>
-      <p class="text-lg text-gray-600 mb-8">Discover insights, stories, and knowledge shared by our community.</p>
-      <?php
-      if (!$connected) {
-        echo '<a href="../auth/login.php" class="bg-[var(--black)] text-white py-2 px-6 rounded hover:opacity-70 transition duration-300">Get Started</a>';
-      } else {
-        echo '<a href="../profile/profile.php" class="bg-[var(--black)] text-white py-2 px-6 rounded hover:opacity-70 transition duration-300">Check profile</a>';
-      }
-      ?>
+
+  <section class="pt-24 pb-8 bg-gradient-to-b from-orange-100 to-white">
+    <div class="container mx-auto px-4 py-8 text-center">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Explore Our Articles</h1>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">Discover insights, stories, and knowledge shared by our
+        community.</p>
     </div>
   </section>
 
-  <section class="py-20 min-h-[40vh] bg-white">
-    <div class="container mx-auto text-center flex flex-col gap-12">
-      <h1 class="text-3xl font-bold text-gray-800">All Articles</h1>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center items-center">
 
-        <?php
-        foreach ($articles as $article) {
-          ?>
-          <div class="bg-gray-100 p-6 rounded shadow-md hover:shadow-lg transition duration-300 max-w-xs mx-auto">
-            <div class="mb-4">
-              <img src="../uploads/<?= htmlspecialchars($article['image']); ?>" alt="Article Image"
-                class="w-full h-48 object-cover rounded-md">
+  <section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <?php foreach ($articles as $article) { ?>
+          <article
+            class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 overflow-hidden group">
+            <div class="aspect-w-16 aspect-h-9 overflow-hidden">
+              <img src="../uploads/<?= $article['image']; ?>" alt="<?= $article['title']; ?>"
+                class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
             </div>
-            <p class="text-xl font-semibold text-gray-800 mb-4"><?= htmlspecialchars($article['title']); ?></p>
-            <p class="text-gray-600 mb-4"><?= htmlspecialchars($article['description']); ?></p>
-            <p class="text-xs text-[var(--black)] mb-2 font-semibold"><?= htmlspecialchars($article['publish_date']); ?>
-            </p>
-            <form method="POST" action="article_details.php">
-              <button type="submit" name="article" value="<?= htmlspecialchars($article['id']); ?>"
-                class="w-40 bg-[var(--blue)] text-white py-2 px-4 rounded hover:bg-[var(--buff)] font-bold transition">
+            <div class="p-6">
+              <p class="text-sm text-orange-500 font-medium mb-2"><?= $article['publish_date']; ?></p>
+              <h2 class="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
+                <?= $article['title']; ?>
+              </h2>
+              <p class="text-gray-600 mb-4 line-clamp-3">
+                <?= $article['description']; ?>
+              </p>
+              <a href="article_details.php?article=<?= $article['id']; ?>"
+                class="inline-flex items-center text-orange-500 hover:text-orange-600 font-medium group-hover:translate-x-1 transition-transform duration-200">
                 Read More
-              </button>
-            </form>
-          </div>
-          <?php
-        }
-        ?>
-
+                <i class="fas fa-arrow-right ml-2 text-sm"></i>
+              </a>
+            </div>
+          </article>
+        <?php } ?>
       </div>
     </div>
   </section>
 
-  <footer class="bg-[#ffe5cf] py-4 px-2 h-[15vh]">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="logo">
-        <img src="../assets/sphereblog.png" alt="Logo" class="w-24">
+  <footer class="bg-gray-900 text-white mt-auto">
+    <div class="container mx-auto px-4 py-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+        <div>
+          <img src="../assets/sphereblog.png" alt="Logo" class="w-20 mb-2">
+          <p class="text-gray-400 text-sm">Share your stories with the world.</p>
+        </div>
+        <div class="flex justify-center">
+          <ul class="space-y-1 text-center">
+            <li><a href="../index.php" class="text-gray-400 hover:text-white transition text-sm">Home</a></li>
+            <li><a href="articles.php" class="text-gray-400 hover:text-white transition text-sm">Articles</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Contact</a></li>
+          </ul>
+        </div>
+        <div class="flex flex-col items-end">
+          <h3 class="text-sm font-semibold mb-2">Follow Us</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
       </div>
-
-      <nav>
-        <ul class="flex space-x-8">
-          <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Home</a></li>
-          <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Articles</a></li>
-          <li><a href="#" class="text-gray-800 hover:text-[#e8b28b]">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-    <div class="text-center text-xs mt-8">
-      <p class="text-gray-800">© 2024 Your Platform. All rights reserved.</p>
+      <div class="border-t border-gray-800 mt-4 pt-4 text-center">
+        <p class="text-gray-400 text-xs">&copy; 2024 BlogSphere. All rights reserved.</p>
+      </div>
     </div>
   </footer>
+
 </body>
 
 </html>
