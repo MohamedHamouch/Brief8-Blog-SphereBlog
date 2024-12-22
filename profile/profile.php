@@ -348,7 +348,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
               <?php } ?>
             </div>
 
-            <!-- Pagination -->
             <!-- <div class="py-4 px-6 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
               <p class="text-sm text-gray-600">Showing <span class="font-medium">1</span> of <span
                   class="font-medium">1</span> comments</p>
