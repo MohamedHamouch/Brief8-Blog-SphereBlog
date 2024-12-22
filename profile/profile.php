@@ -253,30 +253,36 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
             </div>
 
             <div class="divide-y divide-gray-200">
-              <div
-                class="grid grid-cols-[3fr,2fr,2fr,1fr,1fr] items-center py-4 px-6 hover:bg-gray-50 transition-colors duration-150">
-                <div class="text-gray-900 font-medium truncate">Article Title 1</div>
-                <div class="text-gray-600">Publisher 1</div>
-                <div class="text-gray-600">2024-12-19</div>
-                <div class="flex justify-center">
-                  <button class="text-gray-400 hover:text-orange-500 transition-colors">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                </div>
-                <div class="flex justify-center">
-                  <form action="handle_forms/delete_article.php" method="POST" class="deleteForm">
-                    <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </form>
-                </div>
-              </div>
+              <?php
+              if (!empty($articles)) {
+                foreach ($articles as $article) {
+                  ?>
+                  <div
+                    class="grid grid-cols-[3fr,2fr,2fr,1fr,1fr] items-center py-4 px-6 hover:bg-gray-50 transition-colors duration-150">
 
-              <!-- Example of empty state -->
-              <!-- <div class="py-12 px-6 text-center text-gray-500 hidden">
-                <i class="fa-solid fa-newspaper text-4xl mb-4"></i>
-                <p>No articles published yet</p>
-              </div> -->
+                    <div class="text-gray-900 font-medium truncate"><?= $article['title'] ?></div>
+                    <div class="text-gray-600"><?= "{$article['first_name']} {$article['last_name']}" ?></div>
+                    <div class="text-gray-600"><?= $article['publish_date'] ?></div>
+                    <div class="flex justify-center">
+                      <button class="text-gray-400 hover:text-orange-500 transition-colors">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </button>
+                    </div>
+                    <div class="flex justify-center">
+                      <form action="handle_forms/delete_article.php" method="POST" class="deleteForm">
+                        <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                <?php }
+              } else { ?>
+                <div class="py-12 px-6 text-center text-gray-500">
+                  <i class="fa-solid fa-newspaper text-4xl mb-4"></i>
+                  <p>No articles published yet</p>
+                </div>
+              <?php } ?>
             </div>
 
             <!-- Pagination (if needed) -->
