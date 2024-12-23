@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
   $connected = true;
   $role = ($_SESSION['role'] == 2) ? 'user' : 'admin';
