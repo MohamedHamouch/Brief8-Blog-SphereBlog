@@ -8,6 +8,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
     $first_name = $_SESSION['first_name'];
     $last_name = $_SESSION['last_name'];
     $email = $_SESSION['email'];
+
+    require 'select_data.php';
+
   } else {
     header("Location: ../../index.php");
     exit();
@@ -151,35 +154,42 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div
-            class="grid grid-cols-[5%,20%,20%,35%,10%,10%] items-center py-4 px-6 bg-gray-50 border-b border-gray-200">
+            class="grid grid-cols-[5%,20%,20%,30%,10%,7.5%,7.5%] items-center py-4 px-6 bg-gray-50 border-b border-gray-200">
             <div class="text-sm font-medium text-gray-600">ID</div>
             <div class="text-sm font-medium text-gray-600">First Name</div>
             <div class="text-sm font-medium text-gray-600">Last Name</div>
             <div class="text-sm font-medium text-gray-600">Email</div>
+            <div class="text-sm font-medium text-gray-600">Role</div>
             <div class="text-sm font-medium text-gray-600 text-center">Promote</div>
             <div class="text-sm font-medium text-gray-600 text-center">Delete</div>
           </div>
 
           <div class="divide-y divide-gray-200">
-            <div
-              class="grid grid-cols-[5%,20%,20%,35%,10%,10%] items-center py-4 px-6 hover:bg-gray-50 transition-colors">
-              <div class="text-gray-900">1</div>
-              <div class="text-gray-900">John</div>
-              <div class="text-gray-900">Doe</div>
-              <div class="text-gray-900">johndoe@example.com</div>
-              <div class="flex justify-center">
-                <button class="text-blue-500 hover:text-blue-600 transition-colors">
-                  <i class="fa-solid fa-circle-arrow-up"></i>
-                </button>
-              </div>
-              <div class="flex justify-center">
-                <form action="" method="POST" class="deleteForm">
-                  <button type="submit" class="text-red-500 hover:text-red-600 transition-colors">
-                    <i class="fa-solid fa-trash"></i>
+            <?php
+            foreach ($users as $user) {
+              ?>
+              <div
+                class="grid grid-cols-[5%,20%,20%,30%,10%,7.5%,7.5%] items-center py-4 px-6 hover:bg-gray-50 transition-colors">
+                <div class="text-gray-900"><?= $user['id'] ?></div>
+                <div class="text-gray-900"><?= $user['first_name'] ?></div>
+                <div class="text-gray-900"><?= $user['last_name'] ?></div>
+                <div class="text-gray-900"><?= $user['email'] ?></div>
+                <div class="text-gray-900"><?= $user['role_name'] ?></div>
+                <div class="flex justify-center">
+                  <button class="text-blue-500 hover:text-blue-600 transition-colors">
+                    <i class="fa-solid fa-circle-arrow-up"></i>
                   </button>
-                </form>
+                </div>
+                <div class="flex justify-center">
+                  <form action="" method="POST" class="deleteForm">
+                    <button type="submit" class="text-red-500 hover:text-red-600 transition-colors">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </form>
+                </div>
               </div>
-            </div>
+              <?php
+            } ?>
           </div>
         </div>
       </section>
