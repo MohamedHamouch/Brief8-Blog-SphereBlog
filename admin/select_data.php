@@ -14,3 +14,11 @@ $sql = "SELECT title, publish_date, first_name, last_name
 
 $result = mysqli_query($conn, $sql);
 $articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+$sql = "SELECT title, first_name, last_name, comment_date
+    FROM Comments
+    JOIN Articles ON Comments.article_id = Articles.id
+    JOIN Users ON Comments.user_id = Users.id;";
+
+$result = mysqli_query($conn, $sql);
+$comments = mysqli_fetch_all($result, MYSQLI_ASSOC);
