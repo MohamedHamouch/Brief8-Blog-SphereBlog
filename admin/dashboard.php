@@ -255,23 +255,28 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
           </div>
 
           <div class="divide-y divide-gray-200">
-            <div class="grid grid-cols-[3fr,2fr,2fr,1fr,1fr] items-center py-4 px-6 hover:bg-gray-50 transition-colors">
-              <div class="text-gray-900 font-medium">Article Title 1</div>
-              <div class="text-gray-600">User 1</div>
-              <div class="text-gray-600">2024-12-19</div>
-              <div class="flex justify-center">
-                <button class="text-gray-400 hover:text-orange-500 transition-colors">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-              </div>
-              <div class="flex justify-center">
-                <form action="handle_forms/delete_comment.php" method="POST" class="deleteForm">
-                  <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors">
-                    <i class="fa-solid fa-trash"></i>
+            <?php
+            foreach ($comments as $comment) {
+              ?>
+              <div class="grid grid-cols-[3fr,2fr,2fr,1fr,1fr] items-center py-4 px-6 hover:bg-gray-50 transition-colors">
+                <div class="text-gray-900 font-medium"><?= $comment['title'] ?></div>
+                <div class="text-gray-600"><?= "{$comment['first_name']} {$comment['last_name']}" ?></div>
+                <div class="text-gray-600"><?= $comment['comment_date'] ?></div>
+                <div class="flex justify-center">
+                  <button class="text-gray-400 hover:text-orange-500 transition-colors">
+                    <i class="fa-solid fa-pen-to-square"></i>
                   </button>
-                </form>
+                </div>
+                <div class="flex justify-center">
+                  <form action="handle_forms/delete_comment.php" method="POST" class="deleteForm">
+                    <button type="submit" class="text-gray-400 hover:text-red-500 transition-colors">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </form>
+                </div>
               </div>
-            </div>
+              <?php
+            } ?>
           </div>
         </div>
       </section>
