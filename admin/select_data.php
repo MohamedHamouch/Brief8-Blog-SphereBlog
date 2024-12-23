@@ -8,7 +8,7 @@ $sql = "SELECT users.id, first_name, last_name, email, role_name
 $result = mysqli_query($conn, $sql);
 $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-$sql = "SELECT title, publish_dat0e, first_name, last_name
+$sql = "SELECT title, publish_date, first_name, last_name
       FROM articles JOIN users
       ON user_id = users.id";
 
