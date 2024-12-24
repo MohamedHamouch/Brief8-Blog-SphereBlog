@@ -142,7 +142,7 @@ require 'select_article_data.php';
                     placeholder="Share your thoughts...">
                 </div>
                 <button type="submit" name="article" value="<?= $article['id'] ?>"
-                  class="bg-orange-500 text-white px-6 py-3 rounded-full hover:bg-orange-600 transition">
+                  class="bg-orange-500 text-white px-6 py-3 rounded-full font-medium hover:bg-orange-600 transform hover:-translate-y-0.5 transition">
                   Post Comment
                 </button>
               </form>
@@ -154,7 +154,7 @@ require 'select_article_data.php';
               <h3 class="text-xl font-bold text-gray-900 mb-4">Join the Discussion</h3>
               <p class="text-gray-600 mb-6">Sign in to leave a comment on this article.</p>
               <a href="../auth/login.php"
-                class="inline-block bg-orange-500 text-white px-8 py-3 rounded-full hover:bg-orange-600 transition">
+                class="inline-block bg-orange-500 text-white px-8 py-3 rounded-full font-medium hover:bg-orange-600 transform hover:-translate-y-0.5 transition">
                 Sign In to Comment
               </a>
             </div>
