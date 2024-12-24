@@ -220,7 +220,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
                 <div class="text-gray-600"><?= "{$article['first_name']} {$article['last_name']}" ?></div>
                 <div class="text-gray-600"><?= $article['publish_date'] ?></div>
                 <div class="flex justify-center">
-                  <button class="text-gray-400 hover:text-orange-500 transition-colors">
+                  <button class="edit-article-btn text-gray-400 hover:text-orange-500 transition-colors">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
                 </div>
@@ -321,8 +321,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
           </div>
 
           <div class="flex justify-end items-center space-x-4 pt-6 border-t border-gray-100">
-            <button type="button"
-              class="flex items-center px-6 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors">
+            <button type="button" id="cancel-edit-article"
+              class="flex items-center px-6 py-2 rounded-full border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors">
               <i class="fa-solid fa-xmark mr-2"></i>
               Cancel
             </button>
