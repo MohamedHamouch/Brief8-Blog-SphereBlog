@@ -283,6 +283,60 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email'])) {
     </div>
   </main>
 
+  <!-- edit articl form -->
+  <section class="fixed inset-0 z-50 hidden" id="edit-article-form">
+    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm"></div>
+
+    <div
+      class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-xl shadow-sm border border-gray-100">
+      <div class="p-6 space-y-6">
+
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-gray-900">Edit Article</h2>
+          <p class="mt-2 text-gray-600">Update your article information</p>
+        </div>
+
+        <form action="handle_forms/update_article.php" method="POST" class="space-y-6">
+          <input type="hidden" name="article_id" id="edit-article-id">
+
+          <div class="space-y-2">
+            <label for="edit-title" class="text-sm font-medium text-gray-600">Title</label>
+            <input type="text" id="edit-title" name="title" maxlength="100" required
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors"
+              placeholder="Enter article title (max 100 characters)">
+          </div>
+
+          <div class="space-y-2">
+            <label for="edit-description" class="text-sm font-medium text-gray-600">Description</label>
+            <textarea id="edit-description" name="description" maxlength="250" required rows="2"
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors"
+              placeholder="Enter article description (max 250 characters)"></textarea>
+          </div>
+
+          <div class="space-y-2">
+            <label for="edit-content" class="text-sm font-medium text-gray-600">Content</label>
+            <textarea id="edit-content" name="content" required rows="6"
+              class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors"
+              placeholder="Write your article content here"></textarea>
+          </div>
+
+          <div class="flex justify-end items-center space-x-4 pt-6 border-t border-gray-100">
+            <button type="button"
+              class="flex items-center px-6 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-xmark mr-2"></i>
+              Cancel
+            </button>
+            <button type="submit"
+              class="flex items-center bg-orange-500 text-white px-8 py-2 rounded-full hover:bg-orange-600 transform hover:-translate-y-0.5 transition-all duration-200">
+              <i class="fa-solid fa-pen-to-square mr-2"></i>
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <script src="dashboard.js"></script>
 </body>
 
