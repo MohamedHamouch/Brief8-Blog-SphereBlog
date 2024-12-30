@@ -170,7 +170,7 @@ require 'select_article_data.php';
         <h1 class="text-4xl font-bold text-gray-900 mb-6">Article Not Found</h1>
         <p class="text-xl text-gray-600 mb-8">The article you're looking for doesn't exist or has been removed.</p>
         <a href="articles.php"
-          class="inline-block bg-orange-500 text-white px-8 py-3 rounded-full hover:bg-orange-600 transition">
+          class="inline-block bg-orange-500 text-white px-8 py-3 font-medium rounded-full hover:bg-orange-600 hover:-translate-y-0.5 transition">
           Back to Articles
         </a>
       </div>
