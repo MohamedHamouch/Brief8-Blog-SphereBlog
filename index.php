@@ -109,7 +109,7 @@ $articles = mysqli_fetch_all($result, MYSQLI_ASSOC);
               <p class="text-gray-600 mb-4 line-clamp-3">
                 <?= $article['description']; ?>
               </p>
-              <a href="article_details.php?article=<?= $article['id']; ?>"
+              <a href="articles/article_details.php?article=<?= $article['id']; ?>"
                 class="inline-flex items-center text-orange-500 hover:text-orange-600 font-medium group-hover:translate-x-1 transition-transform duration-200">
                 Read More
                 <i class="fas fa-arrow-right ml-2 text-sm"></i>
